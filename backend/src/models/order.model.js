@@ -10,8 +10,7 @@ const orderSchema = new mongoose.Schema(
     items: [
       {
         productId: {
-          type: Number, // In listing page they have numeric IDs, let's allow both String or Number for compatibility, or let's store it as String/Number. Let's use Schema.Types.Mixed or just String/Number.
-          type: String, 
+          type: String,
           required: true,
         },
         name: {

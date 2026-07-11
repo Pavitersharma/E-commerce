@@ -19,9 +19,10 @@ router.get("/", async (req, res) => {
       query.category = { $in: categories };
     }
 
-    // Search query
+    // Search query (escape regex special characters for safety)
     if (search) {
-      query.name = { $regex: search, $options: "i" };
+      const escapedSearch = search.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      query.name = { $regex: escapedSearch, $options: "i" };
     }
 
     let queryBuilder = productModel.find(query);

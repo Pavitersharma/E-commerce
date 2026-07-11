@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { getImageAsset } from "../../utils/imageHelper";
-import axios from "axios";
-import { toast, ToastContainer } from "react-toastify";
+import API from "../../utils/api";
+import { toast } from "react-toastify";
 import { FaBoxOpen, FaTruck, FaClock, FaCheckCircle, FaUndo, FaArrowRight } from "react-icons/fa";
 
 const Orders = () => {
@@ -19,7 +19,7 @@ const Orders = () => {
     const fetchOrders = async () => {
       try {
         setLoading(true);
-        const res = await axios.get("http://localhost:5000/api/v1/orders/my", {
+        const res = await API.get("/api/v1/orders/my", {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (res.data.success) {
@@ -87,9 +87,8 @@ const Orders = () => {
 
   return (
     <div className="bg-zinc-50 min-h-screen pt-24 pb-12">
-      <ToastContainer />
       <div className="container mx-auto px-4 max-w-4xl">
-        <h1 className="text-3xl font-bold text-zinc-900 mb-8 flex items-center gap-3">
+        <h1 className="text-2xl sm:text-3xl font-bold text-zinc-900 mb-6 sm:mb-8 flex items-center gap-3">
           <FaBoxOpen className="text-blue-600" /> My Orders
         </h1>
 
@@ -98,7 +97,7 @@ const Orders = () => {
             <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600"></div>
           </div>
         ) : orders.length === 0 ? (
-          <div className="bg-white rounded-2xl border border-zinc-200 p-12 text-center max-w-md mx-auto shadow-sm">
+          <div className="bg-white rounded-2xl border border-zinc-200 p-8 sm:p-12 text-center max-w-md mx-auto shadow-sm">
             <div className="text-5xl mb-4">📦</div>
             <h2 className="text-xl font-bold text-zinc-800 mb-2">No orders yet</h2>
             <p className="text-zinc-500 text-sm mb-6">
@@ -152,7 +151,7 @@ const Orders = () => {
                 </div>
 
                 {/* Order Items */}
-                <div className="px-6 py-4 divide-y divide-zinc-100">
+                <div className="px-4 sm:px-6 py-4 divide-y divide-zinc-100">
                   {order.items.map((item, index) => (
                     <div
                       key={index}

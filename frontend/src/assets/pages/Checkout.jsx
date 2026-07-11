@@ -5,8 +5,8 @@ import { useAuth } from "../../context/AuthContext";
 import { getImageAsset } from "../../utils/imageHelper";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
-import { toast, ToastContainer } from "react-toastify";
+import API from "../../utils/api";
+import { toast } from "react-toastify";
 import { FaCheckCircle, FaChevronRight, FaMapMarkerAlt, FaCreditCard, FaClipboardCheck } from "react-icons/fa";
 
 const Checkout = () => {
@@ -82,7 +82,7 @@ const Checkout = () => {
         totalAmount: total,
       };
 
-      const res = await axios.post("http://localhost:5000/api/v1/orders", orderData, {
+      const res = await API.post("/api/v1/orders", orderData, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -155,12 +155,11 @@ const Checkout = () => {
 
   return (
     <div className="bg-zinc-50 min-h-screen pt-24 pb-12">
-      <ToastContainer />
       <div className="container mx-auto px-4 max-w-6xl">
         {/* Step Stepper Header */}
-        <div className="flex items-center justify-center gap-4 mb-10 max-w-lg mx-auto">
+        <div className="flex items-center justify-center gap-2 sm:gap-4 mb-8 sm:mb-10 max-w-lg mx-auto">
           <div
-            className={`flex items-center gap-2 font-semibold text-sm ${
+            className={`flex items-center gap-1 sm:gap-2 font-semibold text-xs sm:text-sm ${
               step >= 1 ? "text-blue-600" : "text-zinc-400"
             }`}
           >
@@ -175,7 +174,7 @@ const Checkout = () => {
           </div>
           <FaChevronRight size={12} className="text-zinc-300" />
           <div
-            className={`flex items-center gap-2 font-semibold text-sm ${
+            className={`flex items-center gap-1 sm:gap-2 font-semibold text-xs sm:text-sm ${
               step >= 2 ? "text-blue-600" : "text-zinc-400"
             }`}
           >
@@ -190,7 +189,7 @@ const Checkout = () => {
           </div>
           <FaChevronRight size={12} className="text-zinc-300" />
           <div
-            className={`flex items-center gap-2 font-semibold text-sm ${
+            className={`flex items-center gap-1 sm:gap-2 font-semibold text-xs sm:text-sm ${
               step >= 3 ? "text-blue-600" : "text-zinc-400"
             }`}
           >

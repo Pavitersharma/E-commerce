@@ -4,10 +4,10 @@ import { BsFillGridFill } from "react-icons/bs";
 import { FaGripLines, FaHeart, FaRegHeart } from "react-icons/fa";
 import { CiSearch, CiFilter } from "react-icons/ci";
 import { FcRating } from "react-icons/fc";
-import axios from "axios";
+import API from "../../utils/api";
 import { useCart } from "../../context/CartContext";
 import { getImageAsset } from "../../utils/imageHelper";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 
 const Listing = () => {
   const { cart, addToCart, updateQty } = useCart();
@@ -26,7 +26,7 @@ const Listing = () => {
     const fetchProducts = async () => {
       try {
         setLoading(true);
-        const res = await axios.get("http://localhost:5000/api/v1/products");
+        const res = await API.get("/api/v1/products");
         if (res.data.success) {
           setProducts(res.data.data);
         }
@@ -116,17 +116,16 @@ const Listing = () => {
 
   return (
     <div className="container mx-auto px-4 pb-12 pt-16">
-      <ToastContainer />
       {/* ================= HEADER ================= */}
-      <div className="flex items-center justify-between mt-8">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between mt-8 gap-3">
         <div>
-          <h2 className="text-2xl font-bold">Men's Fashion</h2>
+          <h2 className="text-xl sm:text-2xl font-bold">Men's Fashion</h2>
           <p className="text-zinc-400 text-sm">
             Showing {filteredProducts.length} Products
           </p>
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3 sm:gap-4 flex-wrap">
           <button className="border border-zinc-300 rounded-xl p-2 bg-white hover:bg-zinc-50 transition">
             <BsFillGridFill />
           </button>
@@ -242,7 +241,7 @@ const Listing = () => {
               <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600"></div>
             </div>
           ) : filteredProducts.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
               {filteredProducts.map((product) => {
                 const productKey = product._id || product.id;
                 const cartItem = cart.find((item) => (item._id || item.id) === productKey);

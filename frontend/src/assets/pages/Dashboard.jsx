@@ -3,8 +3,8 @@ import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
-import { toast, ToastContainer } from "react-toastify";
+import API from "../../utils/api";
+import { toast } from "react-toastify";
 import { FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt, FaEdit, FaBox, FaSignOutAlt, FaShoppingBag } from "react-icons/fa";
 
 const Dashboard = () => {
@@ -15,13 +15,6 @@ const Dashboard = () => {
   const [recentOrders, setRecentOrders] = useState([]);
   const [loadingOrders, setLoadingOrders] = useState(true);
 
-  // Protect Dashboard Route
-  useEffect(() => {
-    if (!isAuthenticated) {
-      navigate("/login");
-    }
-  }, [isAuthenticated, navigate]);
-
   // Fetch recent orders
   useEffect(() => {
     if (!token) return;
@@ -29,7 +22,7 @@ const Dashboard = () => {
     const fetchRecentOrders = async () => {
       try {
         setLoadingOrders(true);
-        const res = await axios.get("http://localhost:5000/api/v1/orders/my", {
+        const res = await API.get("/api/v1/orders/my", {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (res.data.success) {
@@ -61,7 +54,7 @@ const Dashboard = () => {
     validationSchema: profileSchema,
     onSubmit: async (values) => {
       try {
-        const res = await axios.put("http://localhost:5000/api/v1/auth/me", values, {
+        const res = await API.put("/api/v1/auth/me", values, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -81,7 +74,6 @@ const Dashboard = () => {
 
   return (
     <div className="bg-zinc-50 min-h-screen pt-24 pb-12">
-      <ToastContainer />
       <div className="container mx-auto px-4 max-w-5xl">
         <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-8">
           

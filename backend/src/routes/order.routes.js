@@ -6,7 +6,7 @@ const router = express.Router();
 // Helper to generate a unique readable order ID
 const generateOrderId = () => {
   const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, "");
-  const randomStr = Math.floor(1000 + Math.random() * 9000);
+  const randomStr = Math.random().toString(36).substring(2, 10).toUpperCase();
   return `ORD-${dateStr}-${randomStr}`;
 };
 

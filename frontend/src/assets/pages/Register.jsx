@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { FaGoogle, FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
+import API from "../../utils/api";
+import { toast } from "react-toastify";
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -32,8 +32,8 @@ const Register = () => {
     validationSchema,
     onSubmit: async (values, { resetForm }) => {
       try {
-        const res = await axios.post(
-          "http://localhost:5000/api/v1/auth/register",
+        const res = await API.post(
+          "/api/v1/auth/register",
           values
         );
 
@@ -56,8 +56,8 @@ const Register = () => {
   const togglePassword = () => setShowPassword(!showPassword);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="bg-white border border-gray-300 p-10 rounded-md shadow-md w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-20">
+      <div className="bg-white border border-gray-300 p-6 sm:p-10 rounded-md shadow-md w-full max-w-md">
         {/* Logo / Home Link */}
         <Link
           to="/"
@@ -152,21 +152,8 @@ const Register = () => {
             >
               Register
             </button>
-            <ToastContainer />
           </div>
         </form>
-
-        <hr className="my-5" />
-        <div className="text-center text-sm text-gray-500">
-          OR CONTINUE WITH
-        </div>
-        <hr className="my-3" />
-
-        {/* Google Button */}
-        <button className="w-full border border-gray-300 rounded py-2 flex items-center justify-center gap-2 hover:bg-gray-100 mt-3">
-          <FaGoogle />
-          <span className="text-sm font-medium">Google</span>
-        </button>
 
         {/* Login Link */}
         <p className="text-center text-sm mt-5">

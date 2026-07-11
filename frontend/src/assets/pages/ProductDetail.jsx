@@ -4,8 +4,8 @@ import { useCart } from "../../context/CartContext";
 import { getImageAsset } from "../../utils/imageHelper";
 import { FcRating } from "react-icons/fc";
 import { FaCartPlus, FaArrowLeft, FaChevronRight, FaShieldAlt, FaTruck, FaUndo } from "react-icons/fa";
-import axios from "axios";
-import { toast, ToastContainer } from "react-toastify";
+import API from "../../utils/api";
+import { toast } from "react-toastify";
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -22,7 +22,7 @@ const ProductDetail = () => {
       try {
         setLoading(true);
         // Find product by database ID
-        const res = await axios.get(`http://localhost:5000/api/v1/products/${id}`);
+        const res = await API.get(`/api/v1/products/${id}`);
         if (res.data.success) {
           setProduct(res.data.data);
         }
@@ -72,7 +72,6 @@ const ProductDetail = () => {
 
   return (
     <div className="bg-zinc-50 min-h-screen pt-24 pb-12">
-      <ToastContainer />
       <div className="container mx-auto px-4 max-w-6xl">
         {/* Breadcrumb / Back button */}
         <button
@@ -85,7 +84,7 @@ const ProductDetail = () => {
         {/* Product Details Section */}
         <div className="bg-white border border-zinc-200 rounded-3xl p-6 sm:p-8 shadow-sm grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
           {/* Left Column: Image */}
-          <div className="flex items-center justify-center bg-zinc-50 border border-zinc-100 rounded-2xl p-6 min-h-[350px] lg:min-h-[450px]">
+          <div className="flex items-center justify-center bg-zinc-50 border border-zinc-100 rounded-2xl p-4 sm:p-6 min-h-[250px] sm:min-h-[350px] lg:min-h-[450px]">
             <img
               src={getImageAsset(product.image)}
               alt={product.name}

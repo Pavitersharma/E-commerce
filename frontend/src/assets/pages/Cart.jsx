@@ -20,10 +20,10 @@ const Cart = () => {
   return (
     <div className="bg-zinc-50 min-h-screen pt-24 pb-12">
       <div className="container mx-auto px-4 max-w-6xl">
-        <h1 className="text-3xl font-bold text-zinc-900 mb-8">Shopping Cart</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold text-zinc-900 mb-6 sm:mb-8">Shopping Cart</h1>
 
         {cart.length === 0 ? (
-          <div className="bg-white rounded-2xl border border-zinc-200 p-12 text-center max-w-xl mx-auto shadow-sm">
+          <div className="bg-white rounded-2xl border border-zinc-200 p-8 sm:p-12 text-center max-w-xl mx-auto shadow-sm">
             <div className="text-6xl mb-4">🛒</div>
             <h2 className="text-2xl font-bold text-zinc-800 mb-2">Your cart is empty</h2>
             <p className="text-zinc-500 mb-6">

@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { FcRating } from 'react-icons/fc';
 import { LuUsersRound } from 'react-icons/lu';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import API from '../utils/api';
 import { useCart } from '../context/CartContext';
 import { getImageAsset } from '../utils/imageHelper';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 import shirt2 from '../assets/images/shirt2.png';
 import tshirt from '../assets/images/tshirt.png';
@@ -27,7 +27,7 @@ const Homepage = () => {
     const fetchFeatured = async () => {
       try {
         setLoading(true);
-        const res = await axios.get("http://localhost:5000/api/v1/products?isFeatured=true");
+        const res = await API.get("/api/v1/products?isFeatured=true");
         if (res.data.success) {
           // Take first 6 products for display
           setFeaturedProducts(res.data.data.slice(0, 6));
@@ -48,40 +48,39 @@ const Homepage = () => {
 
   return (
     <>
-      <ToastContainer />
       <div className="bg-zinc-100 min-h-50 mt-16 pt-6">
-        <div className="container mx-auto flex flex-col lg:flex-row items-center justify-between p-10 gap-10">
-          <div>
-            <h1 className="font-black text-5xl leading-tight">
-              Premium men's <br /> fashion{" "}
+        <div className="container mx-auto flex flex-col lg:flex-row items-center justify-between px-4 sm:px-6 lg:px-10 py-8 sm:py-10 gap-8 lg:gap-10">
+          <div className="text-center lg:text-left">
+            <h1 className="font-black text-3xl sm:text-4xl lg:text-5xl leading-tight">
+              Premium men's <br className="hidden sm:block" /> fashion{" "}
               <span className="text-blue-600">delivered</span>
             </h1>
-            <p className="text-zinc-500 mt-5">
-              Discover the latest trends in men's clothing and <br />{" "}
+            <p className="text-zinc-500 mt-4 sm:mt-5 text-sm sm:text-base max-w-md mx-auto lg:mx-0">
+              Discover the latest trends in men's clothing and{" "}
               accessories. Style, comfort, and quality in every piece.
             </p>
 
-            <div className="mt-5 flex gap-5">
+            <div className="mt-5 flex flex-col sm:flex-row gap-3 sm:gap-5 justify-center lg:justify-start">
               <Link
                 to="/listing"
-                className="bg-blue-600 text-white px-9 py-2.5 rounded-xl hover:bg-blue-700 font-semibold shadow transition"
+                className="bg-blue-600 text-white px-6 sm:px-9 py-2.5 rounded-xl hover:bg-blue-700 font-semibold shadow transition text-center"
               >
                 Shop Now
               </Link>
               <Link
                 to="/listing"
-                className="bg-white border border-zinc-400 text-zinc-700 px-6 py-2.5 rounded-xl hover:bg-zinc-50 font-semibold transition"
+                className="bg-white border border-zinc-400 text-zinc-700 px-6 py-2.5 rounded-xl hover:bg-zinc-50 font-semibold transition text-center"
               >
                 Browse Collection
               </Link>
             </div>
-            <div className="mt-5 flex items-center gap-5">
-              <p className="flex items-center gap-2"><FcRating /> 4.8<span className="text-zinc-400"> Service Rating* </span></p>
-              <p className="flex items-center gap-2"><LuUsersRound /> 12M+<span className="text-zinc-400"> Customer Globally* </span></p>
+            <div className="mt-5 flex flex-col sm:flex-row items-center gap-3 sm:gap-5 justify-center lg:justify-start">
+              <p className="flex items-center gap-2 text-sm"><FcRating /> 4.8<span className="text-zinc-400"> Service Rating* </span></p>
+              <p className="flex items-center gap-2 text-sm"><LuUsersRound /> 12M+<span className="text-zinc-400"> Customer Globally* </span></p>
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl border border-zinc-200 shadow-sm w-full lg:w-[600px] p-6">
+          <div className="bg-white rounded-2xl border border-zinc-200 shadow-sm w-full lg:w-[600px] p-4 sm:p-6">
             <h2 className="font-bold text-lg mb-4 text-zinc-800">Shop by Category</h2>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               <Link to="/listing?category=shirt" className="border border-zinc-200 p-4 rounded-xl flex flex-col items-center justify-center hover:border-blue-500 transition text-center hover:shadow-sm">
@@ -122,8 +121,8 @@ const Homepage = () => {
       </div>
 
       <div className="container mx-auto mt-16 px-4">
-        <div className="text-center mb-10">
-          <h1 className='text-4xl font-extrabold text-zinc-800'>Featured Products</h1>
+        <div className="text-center mb-8 sm:mb-10">
+          <h1 className='text-2xl sm:text-3xl lg:text-4xl font-extrabold text-zinc-800'>Featured Products</h1>
           <p className='text-zinc-500 mt-2 max-w-xl mx-auto'>
             Discover our best-selling men's fashion items, loved by thousands of customers
           </p>

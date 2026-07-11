@@ -7,7 +7,7 @@ const router = express.Router();
 
 // Helper to generate JWT token
 const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET || "supersecretjwtkey12345", {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: "30d",
   });
 };
@@ -19,7 +19,7 @@ router.post("/register", async (req, res) => {
 
     const chk_user = await userModel.findOne({ email });
     if (chk_user) {
-      return res.status(400).send("User already exists");
+      return res.status(400).json({ success: false, message: "User already exists" });
     }
 
     // Hash password
@@ -56,13 +56,13 @@ router.post("/login", async (req, res) => {
 
     const user = await userModel.findOne({ email });
     if (!user) {
-      return res.status(404).send("User not found");
+      return res.status(404).json({ success: false, message: "User not found" });
     }
 
     // Check password match
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).send("Invalid credentials");
+      return res.status(400).json({ success: false, message: "Invalid credentials" });
     }
 
     // Generate Token
