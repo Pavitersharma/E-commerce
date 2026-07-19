@@ -96,7 +96,7 @@ const ProductDetail = () => {
           <div className="flex flex-col justify-between space-y-6">
             <div className="space-y-4">
               <span className="bg-blue-50 text-blue-600 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">
-                {product.brand || "Fashion Hub"}
+                {product.brand || "BrandShut"}
               </span>
 
               <h1 className="text-2xl sm:text-3xl font-extrabold text-zinc-900 leading-tight">{product.name}</h1>

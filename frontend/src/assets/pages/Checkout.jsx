@@ -135,7 +135,7 @@ const Checkout = () => {
         key: keyId || import.meta.env.VITE_RAZORPAY_KEY,
         amount: orderRes.data.amount,
         currency: orderRes.data.currency,
-        name: "FashionHub",
+        name: "BrandShut",
         description: "Order Payment",
         order_id: razorpayOrderId,
         prefill: {

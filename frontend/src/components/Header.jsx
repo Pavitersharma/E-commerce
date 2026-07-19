@@ -29,7 +29,7 @@ const Header = () => {
           <div className="flex items-center justify-between py-3">
             {/* Logo */}
             <Link to="/" className="text-2xl sm:text-3xl text-black font-bold flex-shrink-0">
-              LOGO
+              BrandShut
             </Link>
             
             {/* Desktop Nav */}

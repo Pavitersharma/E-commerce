@@ -11,10 +11,9 @@ const Footer = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Brand Column */}
           <div>
-            <h2 className="font-bold text-2xl">LOGO</h2>
+            <h2 className="font-bold text-2xl">BrandShut</h2>
             <p className="text-zinc-500 mt-4 text-sm leading-relaxed">
-              Your trusted partner for all home services. Professional,
-              reliable, and convenient.
+              BrandShut is a modern e-commerce platform offering premium shopping experiences with secure payments and fast delivery.
             </p>
             <div className="flex items-center gap-5 mt-5 text-zinc-600">
               <FaFacebook className="hover:text-blue-600 cursor-pointer transition" />
@@ -91,7 +90,7 @@ const Footer = () => {
               </div>
               <div className="flex items-center gap-2 text-gray-500 mt-1">
                 <span>✉</span>
-                <span>support@fashionhub.com</span>
+                <span>support@brandshut.com</span>
               </div>
             </div>
 
@@ -113,7 +112,7 @@ const Footer = () => {
 
         {/* Copyright */}
         <div className="border-t border-zinc-200 mt-8 pt-6 text-center text-xs text-zinc-400">
-          © 2026 FashionHub. All rights reserved.
+          © 2026 BrandShut. All rights reserved.
         </div>
       </div>
     </>
