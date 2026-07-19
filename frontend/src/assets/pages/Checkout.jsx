@@ -20,6 +20,7 @@ const Checkout = () => {
   const [cardDetails, setCardDetails] = useState({ number: "", expiry: "", cvv: "" });
   const [upiId, setUpiId] = useState("");
   const [orderPlaced, setOrderPlaced] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   // Address Validation Schema
   const addressSchema = Yup.object({
@@ -57,46 +58,162 @@ const Checkout = () => {
   const tax = Math.round(subtotal * 0.18);
   const total = subtotal + shipping + tax;
 
+  // ─── Helper: Dynamically load Razorpay Checkout script ──────────────────
+  const loadRazorpayScript = () => {
+    return new Promise((resolve, reject) => {
+      // If already loaded, resolve immediately
+      if (window.Razorpay) {
+        resolve(true);
+        return;
+      }
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.onload = () => resolve(true);
+      script.onerror = () => reject(new Error("Failed to load Razorpay SDK"));
+      document.body.appendChild(script);
+    });
+  };
+
+  // ─── Build order data payload (reused by both COD and Razorpay flows) ───
+  const buildOrderData = () => ({
+    items: cart.map((item) => ({
+      productId: item._id || item.id,
+      name: item.name,
+      price: item.price,
+      qty: item.qty,
+      image: item.image,
+    })),
+    shippingAddress: addressForm.values,
+    paymentMethod,
+    totalAmount: total,
+  });
+
+  // ─── Handle Place Order (Card/UPI → Razorpay, COD → Direct) ─────────────
   const handlePlaceOrder = async () => {
     try {
-      // Validate payment info details locally
-      if (paymentMethod === "Card" && (!cardDetails.number || !cardDetails.expiry || !cardDetails.cvv)) {
-        toast.error("Please enter complete card details");
-        return;
-      }
-      if (paymentMethod === "UPI" && !upiId.includes("@")) {
-        toast.error("Please enter a valid UPI ID (e.g. name@okhdfcbank)");
+      setIsProcessing(true);
+
+      // ── COD Flow: Use existing order creation endpoint directly ──
+      if (paymentMethod === "COD") {
+        const orderData = buildOrderData();
+        const res = await API.post("/api/v1/orders", orderData, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        if (res.data.success) {
+          setOrderPlaced(true);
+          clearCart();
+          toast.success("Order Placed Successfully!");
+          setTimeout(() => {
+            navigate(`/order-success?orderId=${res.data.data.orderId}`);
+          }, 1500);
+        }
         return;
       }
 
-      const orderData = {
-        items: cart.map((item) => ({
-          productId: item._id || item.id,
-          name: item.name,
-          price: item.price,
-          qty: item.qty,
-          image: item.image,
-        })),
-        shippingAddress: addressForm.values,
-        paymentMethod,
-        totalAmount: total,
+      // ── Razorpay Flow (Card / UPI) ──────────────────────────────
+
+      // Step 1: Load Razorpay Checkout script
+      await loadRazorpayScript();
+
+      // Step 2: Create Razorpay order on the backend
+      const { data: orderRes } = await API.post(
+        "/api/v1/payment/create-order",
+        { amount: total },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      if (!orderRes.success) {
+        toast.error("Failed to create payment order. Please try again.");
+        return;
+      }
+
+      const { razorpayOrderId, keyId } = orderRes.data;
+
+      // Step 3: Open Razorpay Checkout modal
+      const options = {
+        key: keyId || import.meta.env.VITE_RAZORPAY_KEY,
+        amount: orderRes.data.amount,
+        currency: orderRes.data.currency,
+        name: "FashionHub",
+        description: "Order Payment",
+        order_id: razorpayOrderId,
+        prefill: {
+          name: addressForm.values.name,
+          contact: addressForm.values.phone,
+          email: user?.email || "",
+        },
+        theme: { color: "#2563eb" },
+
+        // ── Payment Success Handler ──────────────────────────────
+        handler: async (response) => {
+          try {
+            // Step 4: Verify payment on the backend
+            const orderData = buildOrderData();
+            const verifyRes = await API.post(
+              "/api/v1/payment/verify-payment",
+              {
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+                ...orderData,
+              },
+              { headers: { Authorization: `Bearer ${token}` } }
+            );
+
+            if (verifyRes.data.success) {
+              setOrderPlaced(true);
+              clearCart();
+              toast.success("Payment Successful! Order Placed.");
+              setTimeout(() => {
+                navigate(`/order-success?orderId=${verifyRes.data.data.orderId}`);
+              }, 1500);
+            } else {
+              toast.error("Payment verification failed. Contact support.");
+            }
+          } catch (err) {
+            console.error("Verification error:", err);
+            toast.error(
+              err.response?.data?.message ||
+                "Payment verification failed. Please contact support."
+            );
+          } finally {
+            setIsProcessing(false);
+          }
+        },
+
+        // ── Modal Dismissed / Payment Failed ─────────────────────
+        modal: {
+          ondismiss: () => {
+            setIsProcessing(false);
+            toast.info("Payment cancelled. You can retry anytime.");
+          },
+        },
       };
 
-      const res = await API.post("/api/v1/orders", orderData, {
-        headers: { Authorization: `Bearer ${token}` },
+      const razorpayCheckout = new window.Razorpay(options);
+
+      // Handle payment failure event
+      razorpayCheckout.on("payment.failed", (response) => {
+        console.error("Payment failed:", response.error);
+        toast.error(
+          response.error?.description || "Payment failed. Please try again."
+        );
+        setIsProcessing(false);
       });
 
-      if (res.data.success) {
-        setOrderPlaced(true);
-        clearCart();
-        toast.success("Order Placed Successfully!");
-        setTimeout(() => {
-          navigate(`/order-success?orderId=${res.data.data.orderId}`);
-        }, 1500);
-      }
+      razorpayCheckout.open();
+      return; // Don't reset isProcessing — the modal handlers will do it
     } catch (error) {
       console.error(error);
-      toast.error(error.response?.data?.message || "Failed to place order. Try again.");
+      toast.error(
+        error.response?.data?.message || "Failed to place order. Try again."
+      );
+    } finally {
+      // Only reset for COD flow (Razorpay resets in its own handlers)
+      if (paymentMethod === "COD") {
+        setIsProcessing(false);
+      }
     }
   };
 
@@ -392,55 +509,14 @@ const Checkout = () => {
 
                 {/* Sub Forms for payment details */}
                 {paymentMethod === "Card" && (
-                  <div className="bg-zinc-50 border border-zinc-200 rounded-xl p-4 space-y-3 mb-6">
-                    <div>
-                      <label className="block text-xs font-semibold text-zinc-500 uppercase">Card Number</label>
-                      <input
-                        type="text"
-                        placeholder="1234 5678 9101 1121"
-                        maxLength={19}
-                        className="mt-1 w-full border border-zinc-300 bg-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        value={cardDetails.number}
-                        onChange={(e) => setCardDetails({ ...cardDetails, number: e.target.value })}
-                      />
-                    </div>
-                    <div className="grid grid-cols-2 gap-3">
-                      <div>
-                        <label className="block text-xs font-semibold text-zinc-500 uppercase">Expiry Date</label>
-                        <input
-                          type="text"
-                          placeholder="MM/YY"
-                          maxLength={5}
-                          className="mt-1 w-full border border-zinc-300 bg-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                          value={cardDetails.expiry}
-                          onChange={(e) => setCardDetails({ ...cardDetails, expiry: e.target.value })}
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-xs font-semibold text-zinc-500 uppercase">CVV</label>
-                        <input
-                          type="password"
-                          placeholder="***"
-                          maxLength={3}
-                          className="mt-1 w-full border border-zinc-300 bg-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                          value={cardDetails.cvv}
-                          onChange={(e) => setCardDetails({ ...cardDetails, cvv: e.target.value })}
-                        />
-                      </div>
-                    </div>
+                  <div className="bg-blue-50/40 border border-blue-200 rounded-xl p-4 text-sm text-blue-700 mb-6">
+                    💳 You'll enter your card details securely via Razorpay's payment gateway in the next step.
                   </div>
                 )}
 
                 {paymentMethod === "UPI" && (
-                  <div className="bg-zinc-50 border border-zinc-200 rounded-xl p-4 mb-6">
-                    <label className="block text-xs font-semibold text-zinc-500 uppercase">UPI ID</label>
-                    <input
-                      type="text"
-                      placeholder="e.g. name@upi"
-                      className="mt-1 w-full border border-zinc-300 bg-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      value={upiId}
-                      onChange={(e) => setUpiId(e.target.value)}
-                    />
+                  <div className="bg-blue-50/40 border border-blue-200 rounded-xl p-4 text-sm text-blue-700 mb-6">
+                    📱 You'll enter your UPI ID securely via Razorpay's payment gateway in the next step.
                   </div>
                 )}
 
@@ -495,9 +571,9 @@ const Checkout = () => {
                     </h3>
                     <p className="font-semibold text-zinc-800">{paymentMethod}</p>
                     {paymentMethod === "Card" && (
-                      <p className="text-zinc-500 mt-1">💳 Ending in {cardDetails.number.slice(-4) || "****"}</p>
+                      <p className="text-zinc-500 mt-1">💳 Pay via Razorpay (Card)</p>
                     )}
-                    {paymentMethod === "UPI" && <p className="text-zinc-500 mt-1">📱 UPI ID: {upiId}</p>}
+                    {paymentMethod === "UPI" && <p className="text-zinc-500 mt-1">📱 Pay via Razorpay (UPI)</p>}
                   </div>
                 </div>
 
@@ -510,9 +586,14 @@ const Checkout = () => {
                   </button>
                   <button
                     onClick={handlePlaceOrder}
-                    className="w-1/2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl transition shadow-md hover:shadow-lg"
+                    disabled={isProcessing}
+                    className={`w-1/2 font-bold py-3 px-4 rounded-xl transition shadow-md hover:shadow-lg ${
+                      isProcessing
+                        ? "bg-blue-400 cursor-not-allowed text-white"
+                        : "bg-blue-600 hover:bg-blue-700 text-white"
+                    }`}
                   >
-                    Place Order (₹{total})
+                    {isProcessing ? "Processing..." : `Place Order (₹${total})`}
                   </button>
                 </div>
               </div>

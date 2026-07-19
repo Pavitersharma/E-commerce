@@ -4,6 +4,7 @@ const cors = require("cors");
 const authRoute = require("./routes/auth.routes");
 const productRoute = require("./routes/product.routes");
 const orderRoute = require("./routes/order.routes");
+const paymentRoute = require("./routes/paymentRoutes");
 
 const app = express();  //  define app first
 
@@ -19,5 +20,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/products", productRoute);
 app.use("/api/v1/orders", orderRoute);
+app.use("/api/v1/payment", paymentRoute);
 
 module.exports = app;
