@@ -1,1 +1,13 @@
 @import "tailwindcss";
+
+@theme {
+  --color-primary: #18181b; /* zinc-900 */
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #f4f4f5; /* zinc-100 */
+  --color-secondary-foreground: #18181b;
+  --color-border: #e4e4e7; /* zinc-200 */
+  --color-muted: #71717a; /* zinc-500 */
+  
+  --font-display: "Playfair Display", Georgia, serif;
+  --font-sans: "Inter", sans-serif;
+}

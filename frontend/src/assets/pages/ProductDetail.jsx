@@ -3,7 +3,7 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 import { getImageAsset } from "../../utils/imageHelper";
 import { FcRating } from "react-icons/fc";
-import { FaCartPlus, FaArrowLeft, FaChevronRight, FaShieldAlt, FaTruck, FaUndo } from "react-icons/fa";
+import { FaCartPlus, FaArrowLeft, FaShieldAlt, FaTruck, FaUndo, FaMinus, FaPlus, FaChevronDown, FaChevronUp } from "react-icons/fa";
 import API from "../../utils/api";
 import { toast } from "react-toastify";
 
@@ -16,6 +16,9 @@ const ProductDetail = () => {
   const [loading, setLoading] = useState(true);
   const [selectedSize, setSelectedSize] = useState("M");
   const [qty, setQty] = useState(1);
+
+  // Accordion state
+  const [activeAccordion, setActiveAccordion] = useState(null);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -36,22 +39,30 @@ const ProductDetail = () => {
     fetchProduct();
   }, [id]);
 
+  const toggleAccordion = (name) => {
+    if (activeAccordion === name) {
+      setActiveAccordion(null);
+    } else {
+      setActiveAccordion(name);
+    }
+  };
+
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-zinc-50 pt-20">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      <div className="min-h-screen flex items-center justify-center bg-white pt-20">
+        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-primary"></div>
       </div>
     );
   }
 
   if (!product) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-zinc-50 pt-20">
-        <div className="text-center p-8 bg-white border border-zinc-200 rounded-2xl max-w-sm shadow-sm">
-          <h2 className="text-xl font-bold text-zinc-800">Product Not Found</h2>
-          <p className="text-zinc-500 my-4">The product you are looking for does not exist or has been removed.</p>
-          <Link to="/listing" className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-xl transition">
-            Back to Shop
+      <div className="min-h-screen flex items-center justify-center bg-white pt-20">
+        <div className="text-center p-8 bg-zinc-50 border border-zinc-100 rounded-3xl max-w-sm shadow-soft">
+          <h2 className="font-display text-xl font-bold text-primary">Product Not Found</h2>
+          <p className="text-zinc-500 my-4 text-sm leading-relaxed">The product you are looking for does not exist or has been removed.</p>
+          <Link to="/listing" className="inline-block bg-primary hover:bg-zinc-800 text-white font-semibold px-6 py-2.5 rounded-full text-sm transition">
+            Back to Catalog
           </Link>
         </div>
       </div>
@@ -70,161 +81,256 @@ const ProductDetail = () => {
     toast.success(`${product.name} added to cart! 🛒`);
   };
 
+  const handleBuyNow = () => {
+    addToCart(product, qty);
+    navigate("/cart");
+  };
+
   return (
-    <div className="bg-zinc-50 min-h-screen pt-24 pb-12">
-      <div className="container mx-auto px-4 max-w-6xl">
+    <div className="bg-white min-h-screen pt-20 sm:pt-24 pb-16">
+      <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
         {/* Breadcrumb / Back button */}
         <button
           onClick={() => navigate(-1)}
-          className="flex items-center gap-2 text-zinc-500 hover:text-blue-600 text-sm font-semibold mb-6 transition"
+          className="flex items-center gap-2 text-zinc-400 hover:text-primary text-xs sm:text-sm font-semibold mb-8 transition-colors"
         >
-          <FaArrowLeft size={12} /> Back to Products
+          <FaArrowLeft size={10} /> Back to Catalog
         </button>
 
         {/* Product Details Section */}
-        <div className="bg-white border border-zinc-200 rounded-3xl p-6 sm:p-8 shadow-sm grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-          {/* Left Column: Image */}
-          <div className="flex items-center justify-center bg-zinc-50 border border-zinc-100 rounded-2xl p-4 sm:p-6 min-h-[250px] sm:min-h-[350px] lg:min-h-[450px]">
-            <img
-              src={getImageAsset(product.image)}
-              alt={product.name}
-              className="max-h-[350px] lg:max-h-[450px] object-contain hover:scale-105 transition duration-300"
-            />
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-16">
+          
+          {/* Left Column: Image Gallery */}
+          <div className="md:col-span-6 space-y-4">
+            <div className="w-full aspect-[4/5] rounded-3xl bg-[#F6F6F6] border border-zinc-100/50 flex items-center justify-center overflow-hidden">
+              <img
+                src={getImageAsset(product.image)}
+                alt={product.name}
+                className="max-h-[85%] object-contain hover:scale-102 transition duration-300"
+              />
+            </div>
+            {/* Visual placeholder thumbnails */}
+            <div className="grid grid-cols-4 gap-3">
+              <div className="aspect-[4/5] rounded-xl bg-zinc-50 border border-primary/50 flex items-center justify-center p-2 cursor-pointer overflow-hidden">
+                <img src={getImageAsset(product.image)} alt={product.name} className="max-h-full object-contain" />
+              </div>
+              <div className="aspect-[4/5] rounded-xl bg-[#F6F6F6] border border-transparent hover:border-zinc-300 flex items-center justify-center p-2 cursor-pointer transition overflow-hidden opacity-60 hover:opacity-100">
+                <img src={getImageAsset(product.image)} alt={product.name} className="max-h-full object-contain filter grayscale" />
+              </div>
+              <div className="aspect-[4/5] rounded-xl bg-[#F6F6F6] border border-transparent hover:border-zinc-300 flex items-center justify-center p-2 cursor-pointer transition overflow-hidden opacity-60 hover:opacity-100">
+                <img src={getImageAsset(product.image)} alt={product.name} className="max-h-full object-contain filter sepia" />
+              </div>
+              <div className="aspect-[4/5] rounded-xl bg-[#F6F6F6] border border-transparent hover:border-zinc-300 flex items-center justify-center p-2 cursor-pointer transition overflow-hidden opacity-60 hover:opacity-100">
+                <img src={getImageAsset(product.image)} alt={product.name} className="max-h-full object-contain filter brightness-75" />
+              </div>
+            </div>
           </div>
 
-          {/* Right Column: Info */}
-          <div className="flex flex-col justify-between space-y-6">
-            <div className="space-y-4">
-              <span className="bg-blue-50 text-blue-600 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">
+          {/* Right Column: Info & Purchase Details */}
+          <div className="md:col-span-6 space-y-6 sm:space-y-8">
+            <div className="space-y-3">
+              <span className="inline-block bg-zinc-100 text-zinc-600 text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full">
                 {product.brand || "BrandShut"}
               </span>
-
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-zinc-900 leading-tight">{product.name}</h1>
-
-              {/* Rating */}
-              <div className="flex items-center gap-2 text-sm text-zinc-600">
-                <div className="flex items-center gap-1 font-semibold">
-                  <FcRating />
+              <h1 className="font-display text-3xl sm:text-4xl font-bold text-primary leading-tight">
+                {product.name}
+              </h1>
+              
+              {/* Rating & Stock */}
+              <div className="flex items-center gap-3 text-xs sm:text-sm text-zinc-500 font-medium">
+                <div className="flex items-center gap-1 font-bold text-zinc-700">
+                  <span className="text-yellow-400">★</span>
                   <span>{product.rating || "4.5"}</span>
                 </div>
-                <span className="text-zinc-300">|</span>
-                <span className="underline cursor-pointer hover:text-blue-600">{product.reviewCount || 120} Reviews</span>
-                <span className="text-zinc-300">|</span>
-                <span className="text-green-600 font-medium">{product.stock > 0 ? "In Stock" : "Out of Stock"}</span>
+                <span className="text-zinc-200">|</span>
+                <span className="underline cursor-pointer hover:text-primary">{product.reviewCount || 120} Reviews</span>
+                <span className="text-zinc-200">|</span>
+                <span className={`font-semibold ${product.stock > 0 ? "text-green-600" : "text-red-500"}`}>
+                  {product.stock > 0 ? "In Stock" : "Out of Stock"}
+                </span>
               </div>
+            </div>
 
-              {/* Pricing */}
-              <div className="flex items-baseline gap-4 border-y border-zinc-100 py-3">
-                <span className="text-3xl font-black text-zinc-900">₹{product.price}</span>
-                {product.originalPrice && (
-                  <>
-                    <span className="text-lg text-zinc-400 line-through">₹{product.originalPrice}</span>
-                    <span className="text-sm text-red-500 font-bold bg-red-50 px-2 py-0.5 rounded-md">
-                      {discountPercent || product.discount}% OFF
-                    </span>
-                  </>
+            {/* Pricing Tag */}
+            <div className="flex items-baseline gap-3 border-y border-zinc-100 py-4">
+              <span className="text-2xl sm:text-3xl font-bold text-primary">₹{product.price.toLocaleString("en-IN")}</span>
+              {product.originalPrice && (
+                <>
+                  <span className="text-base sm:text-lg text-zinc-400 line-through">₹{product.originalPrice.toLocaleString("en-IN")}</span>
+                  <span className="text-[10px] sm:text-xs text-red-500 font-bold bg-red-50 px-2.5 py-1 rounded-full uppercase tracking-wider">
+                    {discountPercent || product.discount}% OFF
+                  </span>
+                </>
+              )}
+            </div>
+
+            {/* Description */}
+            <p className="text-zinc-500 text-sm sm:text-base leading-relaxed">
+              {product.description}
+            </p>
+
+            {/* Sizing Selector */}
+            {product.category !== "accessories" && product.category !== "shoes" && (
+              <div className="space-y-3">
+                <div className="flex justify-between items-center text-xs sm:text-sm">
+                  <h4 className="font-bold text-primary">Select Size</h4>
+                  <a href="#" className="text-zinc-400 underline hover:text-primary transition-colors">Size Guide</a>
+                </div>
+                <div className="flex gap-2.5">
+                  {["S", "M", "L", "XL"].map((size) => (
+                    <button
+                      key={size}
+                      onClick={() => setSelectedSize(size)}
+                      className={`w-11 h-11 border rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center transition-all duration-200 ${
+                        selectedSize === size
+                          ? "bg-primary border-primary text-white"
+                          : "border-zinc-200 hover:border-zinc-400 text-zinc-700 bg-white"
+                      }`}
+                    >
+                      {size}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Quantity Selector */}
+            <div className="space-y-3">
+              <h4 className="text-xs sm:text-sm font-bold text-primary">Quantity</h4>
+              <div className="flex items-center border border-zinc-200 rounded-xl overflow-hidden w-28 bg-white h-10 shadow-sm">
+                <button
+                  onClick={() => setQty(qty > 1 ? qty - 1 : 1)}
+                  className="px-3 hover:bg-zinc-50 text-zinc-500 font-bold h-full transition"
+                >
+                  -
+                </button>
+                <span className="flex-1 text-center font-bold text-xs sm:text-sm text-primary">{qty}</span>
+                <button
+                  onClick={() => setQty(qty + 1)}
+                  className="px-3 hover:bg-zinc-50 text-zinc-500 font-bold h-full transition"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+
+            {/* Purchase CTA Buttons */}
+            <div className="pt-4 space-y-3">
+              {cartItem ? (
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <Link
+                    to="/cart"
+                    className="flex-1 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 font-bold py-3.5 px-6 rounded-full flex items-center justify-center gap-2 transition duration-200 text-sm shadow-sm"
+                  >
+                    View in Cart (Qty: {cartItem.qty})
+                  </Link>
+                  <button
+                    onClick={handleAddToCart}
+                    disabled={product.stock === 0}
+                    className="flex-1 bg-primary hover:bg-zinc-800 text-white font-bold py-3.5 px-6 rounded-full flex items-center justify-center gap-2 transition duration-200 text-sm shadow-sm disabled:opacity-50"
+                  >
+                    Add More
+                  </button>
+                </div>
+              ) : (
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <button
+                    onClick={handleAddToCart}
+                    disabled={product.stock === 0}
+                    className="flex-1 border border-zinc-200 hover:border-primary text-zinc-700 hover:text-primary font-bold py-3.5 px-6 rounded-full flex items-center justify-center gap-2 transition duration-200 text-sm shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    Add to Cart
+                  </button>
+                  <button
+                    onClick={handleBuyNow}
+                    disabled={product.stock === 0}
+                    className="flex-1 bg-primary hover:bg-zinc-800 text-white font-bold py-3.5 px-6 rounded-full flex items-center justify-center gap-2 transition duration-200 text-sm shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    Buy It Now
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {/* Policy & Features Accordions */}
+            <div className="border-t border-zinc-100 pt-6 space-y-3.5">
+              {/* Materials & Care */}
+              <div className="border border-zinc-100 rounded-2xl overflow-hidden bg-[#FCFBF8]">
+                <button
+                  onClick={() => toggleAccordion("materials")}
+                  className="w-full flex justify-between items-center px-5 py-3 text-xs sm:text-sm font-bold text-primary transition hover:bg-zinc-50"
+                >
+                  <span>Materials & Care</span>
+                  {activeAccordion === "materials" ? <FaChevronUp size={10} className="text-zinc-400" /> : <FaChevronDown size={10} className="text-zinc-400" />}
+                </button>
+                {activeAccordion === "materials" && (
+                  <div className="px-5 pb-4 text-xs sm:text-sm text-zinc-500 leading-relaxed pt-1 animate-slideDown">
+                    100% Premium Cotton. Machine wash cold with like colors. Tumble dry low. Warm iron if needed. Avoid bleach and direct sunlight during drying.
+                  </div>
                 )}
               </div>
 
-              {/* Description */}
-              <p className="text-zinc-600 text-sm leading-relaxed">{product.description}</p>
-
-              {/* Size Selector */}
-              {product.category !== "accessories" && product.category !== "shoes" && (
-                <div className="space-y-2">
-                  <h4 className="text-sm font-bold text-zinc-800">Select Size</h4>
-                  <div className="flex gap-2">
-                    {["S", "M", "L", "XL"].map((size) => (
-                      <button
-                        key={size}
-                        onClick={() => setSelectedSize(size)}
-                        className={`w-10 h-10 border rounded-xl font-bold text-xs flex items-center justify-center transition ${
-                          selectedSize === size
-                            ? "bg-blue-600 border-blue-600 text-white"
-                            : "border-zinc-300 hover:border-zinc-400 text-zinc-700 bg-white"
-                        }`}
-                      >
-                        {size}
-                      </button>
-                    ))}
+              {/* Shipping & Returns */}
+              <div className="border border-zinc-100 rounded-2xl overflow-hidden bg-[#FCFBF8]">
+                <button
+                  onClick={() => toggleAccordion("shipping")}
+                  className="w-full flex justify-between items-center px-5 py-3 text-xs sm:text-sm font-bold text-primary transition hover:bg-zinc-50"
+                >
+                  <span>Shipping & Returns</span>
+                  {activeAccordion === "shipping" ? <FaChevronUp size={10} className="text-zinc-400" /> : <FaChevronDown size={10} className="text-zinc-400" />}
+                </button>
+                {activeAccordion === "shipping" && (
+                  <div className="px-5 pb-4 text-xs sm:text-sm text-zinc-500 leading-relaxed pt-1 animate-slideDown">
+                    Free express shipping on all orders over ₹1,499. Flat shipping fee of ₹99 applies below. Easy, hassle-free returns on unused items within 15 days of delivery.
                   </div>
-                </div>
-              )}
-
-              {/* Quantity */}
-              <div className="space-y-2">
-                <h4 className="text-sm font-bold text-zinc-800">Quantity</h4>
-                <div className="flex items-center border border-zinc-300 rounded-xl overflow-hidden w-28 bg-white">
-                  <button
-                    onClick={() => setQty(qty > 1 ? qty - 1 : 1)}
-                    className="px-3 py-2 bg-zinc-50 hover:bg-zinc-100 text-zinc-600 font-bold"
-                  >
-                    -
-                  </button>
-                  <span className="flex-1 text-center font-bold text-sm text-zinc-800">{qty}</span>
-                  <button
-                    onClick={() => setQty(qty + 1)}
-                    className="px-3 py-2 bg-zinc-50 hover:bg-zinc-100 text-zinc-600 font-bold"
-                  >
-                    +
-                  </button>
-                </div>
+                )}
               </div>
             </div>
 
-            {/* Actions */}
-            <div className="pt-4 space-y-4">
-              <button
-                onClick={handleAddToCart}
-                disabled={product.stock === 0}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-2xl flex items-center justify-center gap-3 transition shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <FaCartPlus size={18} /> Add to Cart
-              </button>
-
-              {/* Guarantee badges */}
-              <div className="grid grid-cols-3 gap-2 text-center text-[10px] text-zinc-500 pt-2">
-                <div className="flex flex-col items-center gap-1 border border-zinc-100 rounded-xl p-2 bg-zinc-50/50">
-                  <FaTruck className="text-blue-500 text-base" />
-                  <span className="font-semibold text-zinc-700">Free Delivery</span>
-                </div>
-                <div className="flex flex-col items-center gap-1 border border-zinc-100 rounded-xl p-2 bg-zinc-50/50">
-                  <FaUndo className="text-blue-500 text-base" />
-                  <span className="font-semibold text-zinc-700">7-Day Return</span>
-                </div>
-                <div className="flex flex-col items-center gap-1 border border-zinc-100 rounded-xl p-2 bg-zinc-50/50">
-                  <FaShieldAlt className="text-blue-500 text-base" />
-                  <span className="font-semibold text-zinc-700">Secured Checkout</span>
-                </div>
+            {/* Security Guarantee indicators */}
+            <div className="grid grid-cols-3 gap-2 text-center text-[10px] text-zinc-400 pt-2 border-t border-zinc-100">
+              <div className="flex flex-col items-center gap-1.5 p-2 bg-zinc-55/30 rounded-xl">
+                <FaTruck className="text-primary text-sm" />
+                <span className="font-semibold text-zinc-600">Free Delivery</span>
+              </div>
+              <div className="flex flex-col items-center gap-1.5 p-2 bg-zinc-55/30 rounded-xl">
+                <FaUndo className="text-primary text-sm" />
+                <span className="font-semibold text-zinc-600">15-Day Return</span>
+              </div>
+              <div className="flex flex-col items-center gap-1.5 p-2 bg-zinc-55/30 rounded-xl">
+                <FaShieldAlt className="text-primary text-sm" />
+                <span className="font-semibold text-zinc-600">Secured Checkout</span>
               </div>
             </div>
+
           </div>
         </div>
 
         {/* Reviews Section */}
-        <div className="bg-white border border-zinc-200 rounded-3xl p-6 sm:p-8 shadow-sm mt-8 space-y-6">
-          <h2 className="text-lg font-bold text-zinc-800 border-b border-zinc-100 pb-3">Customer Reviews</h2>
-          <div className="space-y-4">
+        <div className="border border-zinc-100 rounded-3xl p-6 sm:p-8 bg-white shadow-soft mt-12 space-y-6 max-w-7xl">
+          <h2 className="font-display text-xl font-bold text-primary border-b border-zinc-100 pb-3">Customer Reviews</h2>
+          <div className="space-y-6">
             {[
               { name: "Aarav Sharma", rating: 5, date: "May 12, 2026", comment: "Excellent fit and premium fabric quality. Exactly as described, and the delivery was fast!" },
               { name: "Rahul Gupta", rating: 4, date: "April 28, 2026", comment: "Super comfortable for daily office wear. The stitch is really good. Fits nicely." },
               { name: "Vikram Singh", rating: 5, date: "April 15, 2026", comment: "Value for money! Buying shirts online can be tricky, but this one is absolute perfection." }
             ].map((rev, index) => (
-              <div key={index} className="border-b border-zinc-100 last:border-0 pb-4 last:pb-0 space-y-2">
-                <div className="flex items-center justify-between text-sm">
-                  <span className="font-semibold text-zinc-800">{rev.name}</span>
-                  <span className="text-zinc-400 text-xs">{rev.date}</span>
+              <div key={index} className="border-b border-zinc-100 last:border-0 pb-6 last:pb-0 space-y-2">
+                <div className="flex items-center justify-between text-xs sm:text-sm">
+                  <span className="font-bold text-primary">{rev.name}</span>
+                  <span className="text-zinc-400 text-xs font-medium">{rev.date}</span>
                 </div>
-                <div className="flex items-center gap-1 text-xs">
+                <div className="flex items-center gap-0.5 text-xs">
                   {Array.from({ length: 5 }).map((_, i) => (
                     <span key={i} className={i < rev.rating ? "text-yellow-400" : "text-zinc-200"}>★</span>
                   ))}
                 </div>
-                <p className="text-zinc-600 text-xs leading-relaxed">{rev.comment}</p>
+                <p className="text-zinc-500 text-xs sm:text-sm leading-relaxed">{rev.comment}</p>
               </div>
             ))}
           </div>
         </div>
+
       </div>
     </div>
   );

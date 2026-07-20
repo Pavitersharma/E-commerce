@@ -115,221 +115,225 @@ const Listing = () => {
     });
 
   return (
-    <div className="container mx-auto px-4 pb-12 pt-16">
-      {/* ================= HEADER ================= */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between mt-8 gap-3">
-        <div>
-          <h2 className="text-xl sm:text-2xl font-bold">Men's Fashion</h2>
-          <p className="text-zinc-400 text-sm">
-            Showing {filteredProducts.length} Products
-          </p>
-        </div>
-
-        <div className="flex items-center gap-3 sm:gap-4 flex-wrap">
-          <button className="border border-zinc-300 rounded-xl p-2 bg-white hover:bg-zinc-50 transition">
-            <BsFillGridFill />
-          </button>
-          <button className="border border-zinc-300 rounded-xl p-2 bg-white hover:bg-zinc-50 transition">
-            <FaGripLines />
-          </button>
-
-          {/* Sorting Dropdown */}
-          <select
-            value={sortOrder}
-            onChange={(e) => setSortOrder(e.target.value)}
-            className="border border-zinc-300 rounded-xl p-2 bg-white text-sm font-semibold focus:outline-none"
-          >
-            <option value="">Sort by</option>
-            <option value="lowtohigh">Price: Low to High</option>
-            <option value="hightolow">Price: High to Low</option>
-          </select>
-        </div>
-      </div>
-
-      {/* ================= SEARCH ================= */}
-      <div className="flex items-center border border-zinc-200 p-2.5 rounded-xl mt-6 gap-2 bg-white hover:border-zinc-400 transition">
-        <CiSearch size={20} className="text-zinc-400" />
-        <input
-          type="text"
-          className="w-full outline-none text-sm font-medium"
-          placeholder="Search Products.."
-          value={search}
-          onChange={(e) => {
-            setSearch(e.target.value);
-            if (e.target.value) {
-              searchParams.set("search", e.target.value);
-            } else {
-              searchParams.delete("search");
-            }
-            setSearchParams(searchParams);
-          }}
-        />
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-[250px_1fr] gap-8 mt-10">
-        {/* ================= FILTERS ================= */}
-        <div className="border border-zinc-200 p-5 rounded-2xl bg-white h-fit shadow-sm">
-          <div className="text-lg flex items-center gap-2 border-b border-zinc-100 pb-3 mb-4">
-            <CiFilter size={18} />
-            <h4 className="font-bold text-zinc-800">Filters</h4>
+    <div className="bg-white min-h-screen pt-20 sm:pt-24 pb-16">
+      <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
+        {/* ================= HEADER ================= */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between border-b border-zinc-100 pb-5 mt-8 gap-4">
+          <div>
+            <h1 className="font-display text-3xl font-bold text-primary">Catalog</h1>
+            <p className="text-zinc-400 text-xs sm:text-sm font-medium mt-1">
+              Showing {filteredProducts.length} Products
+            </p>
           </div>
 
-          {/* Categories */}
-          <div>
-            <h3 className="font-bold text-sm text-zinc-800 mb-3 uppercase tracking-wider text-zinc-400">Categories</h3>
-            <div className="flex flex-col gap-2.5 text-sm text-zinc-600">
-              {["shirt", "jeans", "trousers", "shoes", "tshirt", "accessories"].map(
-                (cat) => (
-                  <label key={cat} className="flex items-center gap-2 cursor-pointer font-medium hover:text-zinc-900">
-                    <input
-                      type="checkbox"
-                      value={cat}
-                      checked={selectedCategories.includes(cat)}
-                      onChange={handleCategoryChange}
-                      className="rounded text-blue-600 accent-blue-600 focus:ring-blue-500"
-                    />
-                    {cat.charAt(0).toUpperCase() + cat.slice(1)}
-                  </label>
-                )
+          <div className="flex items-center gap-3 self-end sm:self-auto">
+            {/* Sorting Dropdown */}
+            <select
+              value={sortOrder}
+              onChange={(e) => setSortOrder(e.target.value)}
+              className="border border-zinc-250 rounded-full px-4 py-2 bg-white text-xs font-semibold focus:outline-none focus:border-primary text-zinc-700 cursor-pointer"
+            >
+              <option value="">Sort by: Default</option>
+              <option value="lowtohigh">Price: Low to High</option>
+              <option value="hightolow">Price: High to Low</option>
+            </select>
+          </div>
+        </div>
+
+        {/* ================= SEARCH INPUT ================= */}
+        <div className="relative mt-6">
+          <CiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400 text-xl" />
+          <input
+            type="text"
+            className="w-full pl-11 pr-4 py-3 border border-zinc-200 focus:border-primary bg-zinc-50/30 rounded-full outline-none text-sm font-normal text-zinc-800 placeholder-zinc-400 transition-all"
+            placeholder="Search catalog for clothing, accessories, or footwear..."
+            value={search}
+            onChange={(e) => {
+              setSearch(e.target.value);
+              if (e.target.value) {
+                searchParams.set("search", e.target.value);
+              } else {
+                searchParams.delete("search");
+              }
+              setSearchParams(searchParams);
+            }}
+          />
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-10 mt-10">
+          {/* ================= SIDEBAR FILTERS ================= */}
+          <div className="space-y-8">
+            <div className="border border-zinc-100 p-6 rounded-3xl bg-white shadow-soft h-fit">
+              <div className="text-sm font-bold text-primary flex items-center gap-2 border-b border-zinc-100 pb-3.5 mb-5">
+                <CiFilter className="text-base font-bold" />
+                <span>Filters</span>
+              </div>
+
+              {/* Categories */}
+              <div className="space-y-4">
+                <h4 className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Categories</h4>
+                <div className="flex flex-col gap-3 text-xs sm:text-sm text-zinc-600 font-medium">
+                  {["shirt", "jeans", "trousers", "shoes", "tshirt", "accessories"].map(
+                    (cat) => (
+                      <label key={cat} className="flex items-center gap-2.5 cursor-pointer hover:text-primary transition-colors">
+                        <input
+                          type="checkbox"
+                          value={cat}
+                          checked={selectedCategories.includes(cat)}
+                          onChange={handleCategoryChange}
+                          className="rounded text-primary accent-primary focus:ring-primary border-zinc-300 w-4 h-4 cursor-pointer"
+                        />
+                        <span>{cat.charAt(0).toUpperCase() + cat.slice(1)}</span>
+                      </label>
+                    )
+                  )}
+                </div>
+              </div>
+
+              {/* Clear Filters */}
+              <button
+                onClick={handleClearFilters}
+                className="mt-6 w-full py-2.5 bg-zinc-50 border border-zinc-200 hover:border-zinc-300 rounded-full text-xs font-semibold transition-all text-zinc-600 shadow-sm"
+              >
+                Clear All Filters
+              </button>
+            </div>
+
+            {/* 🛒 Cart Summary widget inside sidebar */}
+            <div className="border border-zinc-100 p-6 rounded-3xl bg-[#FCFBF8] shadow-soft">
+              <h3 className="font-display text-sm font-bold text-primary mb-4 flex items-center gap-2">
+                <span>🛒</span> Cart Preview
+              </h3>
+              {cart.length === 0 ? (
+                <p className="text-xs text-zinc-400">Your cart is currently empty.</p>
+              ) : (
+                <div className="space-y-4">
+                  <ul className="space-y-2 text-xs text-zinc-600 max-h-48 overflow-y-auto pr-1">
+                    {cart.map((item) => {
+                      const itemKey = item._id || item.id;
+                      return (
+                        <li key={itemKey} className="flex justify-between font-semibold border-b border-zinc-100/50 pb-2 last:border-0 last:pb-0">
+                          <span className="truncate max-w-[150px] text-zinc-800">{item.name}</span>
+                          <span className="text-zinc-500">x{item.qty}</span>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                  <Link
+                    to="/cart"
+                    className="block text-center bg-primary hover:bg-zinc-800 text-white font-semibold text-xs py-2.5 rounded-full transition shadow-sm"
+                  >
+                    View Full Cart
+                  </Link>
+                </div>
               )}
             </div>
           </div>
 
-          {/* Clear Filters Button */}
-          <button
-            onClick={handleClearFilters}
-            className="border border-zinc-300 hover:bg-zinc-50 mt-6 w-full py-2.5 rounded-xl text-xs font-bold transition text-zinc-700 shadow-sm"
-          >
-            Clear All Filters
-          </button>
-
-          {/* 🛒 Cart Summary (Short) */}
-          <div className="mt-8 pt-6 border-t border-zinc-100">
-            <h3 className="font-bold text-sm text-zinc-800 mb-3 flex items-center gap-2">
-              <span>🛒</span> Cart Preview
-            </h3>
-            {cart.length === 0 ? (
-              <p className="text-xs text-zinc-400">Cart is empty</p>
-            ) : (
-              <div className="space-y-2">
-                <ul className="space-y-1.5 text-xs text-zinc-600 max-h-40 overflow-y-auto pr-1">
-                  {cart.map((item) => {
-                    const itemKey = item._id || item.id;
-                    return (
-                      <li key={itemKey} className="flex justify-between font-medium">
-                        <span className="truncate max-w-[140px]">{item.name}</span>
-                        <span>x{item.qty}</span>
-                      </li>
-                    );
-                  })}
-                </ul>
-                <Link
-                  to="/cart"
-                  className="block text-center bg-zinc-100 hover:bg-zinc-200 text-zinc-700 font-bold text-xs py-2 rounded-lg mt-3 transition"
-                >
-                  View Full Cart
-                </Link>
+          {/* ================= PRODUCTS GRID ================= */}
+          <div>
+            {loading ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
+                {Array.from({ length: 6 }).map((_, i) => (
+                  <div key={i} className="animate-pulse space-y-4">
+                    <div className="bg-zinc-100 rounded-2xl aspect-[4/5]" />
+                    <div className="h-4 bg-zinc-100 rounded w-2/3" />
+                    <div className="h-4 bg-zinc-100 rounded w-1/3" />
+                  </div>
+                ))}
               </div>
-            )}
-          </div>
-        </div>
+            ) : filteredProducts.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8 sm:gap-6">
+                {filteredProducts.map((product) => {
+                  const productKey = product._id || product.id;
+                  const cartItem = cart.find((item) => (item._id || item.id) === productKey);
+                  const discountPercent = product.originalPrice 
+                    ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
+                    : 0;
 
-        {/* ================= PRODUCTS GRID ================= */}
-        <div>
-          {loading ? (
-            <div className="flex justify-center py-12">
-              <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600"></div>
-            </div>
-          ) : filteredProducts.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
-              {filteredProducts.map((product) => {
-                const productKey = product._id || product.id;
-                const cartItem = cart.find((item) => (item._id || item.id) === productKey);
+                  return (
+                    <div key={productKey} className="group flex flex-col justify-between transition-all duration-200">
+                      {/* Image + Info container */}
+                      <div className="space-y-4">
+                        <div className="relative aspect-[4/5] w-full rounded-2xl bg-[#F6F6F6] border border-zinc-100/50 flex items-center justify-center overflow-hidden transition-all duration-300 group-hover:shadow-soft">
+                          <Link to={`/product/${productKey}`} className="w-full h-full flex items-center justify-center">
+                            <img
+                              src={getImageAsset(product.image)}
+                              alt={product.name}
+                              className="max-h-[80%] object-contain group-hover:scale-105 transition-transform duration-500"
+                            />
+                          </Link>
 
-                return (
-                  <div
-                    key={productKey}
-                    className="rounded-2xl shadow hover:shadow-md overflow-hidden border border-zinc-200 bg-white p-4 flex flex-col justify-between transition duration-200 group"
-                  >
-                    {/* Image + Discount + Wishlist */}
-                    <div className="relative">
-                      <Link to={`/product/${productKey}`}>
-                        <div className="w-full h-48 object-contain rounded-xl bg-zinc-50 flex items-center justify-center overflow-hidden border border-zinc-100">
-                          <img
-                            src={getImageAsset(product.image)}
-                            alt={product.name}
-                            className="max-h-40 object-contain group-hover:scale-105 transition duration-300"
-                          />
-                        </div>
-                      </Link>
-                      
-                      {product.discount > 0 && (
-                        <span className="absolute top-2 left-2 bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-md shadow-sm">
-                          {product.discount}% OFF
-                        </span>
-                      )}
+                          {/* Wishlist Icon */}
+                          <button
+                            onClick={() => toggleWishlist(productKey)}
+                            className="absolute top-3 right-3 h-8 w-8 bg-white/90 hover:bg-white border border-zinc-100 rounded-full flex items-center justify-center text-zinc-400 hover:text-primary shadow-sm transition"
+                          >
+                            {wishlist.includes(productKey) ? (
+                              <FaHeart className="text-red-500 text-xs" />
+                            ) : (
+                              <FaRegHeart className="text-xs" />
+                            )}
+                          </button>
 
-                      <button
-                        onClick={() => toggleWishlist(productKey)}
-                        className="absolute top-2 right-2 p-1.5 rounded-full bg-white/80 hover:bg-white text-zinc-400 hover:text-red-500 shadow-sm transition"
-                      >
-                        {wishlist.includes(productKey) ? (
-                          <FaHeart className="text-red-500 text-sm" />
-                        ) : (
-                          <FaRegHeart className="text-sm" />
-                        )}
-                      </button>
-                    </div>
-
-                    {/* Product Info */}
-                    <div className="pt-4 flex-1 flex flex-col justify-between">
-                      <div>
-                        <Link to={`/product/${productKey}`}>
-                          <h3 className="font-bold text-zinc-800 text-sm group-hover:text-blue-600 transition line-clamp-1">
-                            {product.name}
-                          </h3>
-                        </Link>
-                        <p className="text-xs text-zinc-400 uppercase font-medium mt-0.5">
-                          {product.brand}
-                        </p>
-
-                        {/* Rating */}
-                        <div className="flex items-center mt-2 text-xs font-semibold gap-1 text-zinc-500">
-                          <FcRating />
-                          <span>{product.rating}</span>
-                          <span className="text-zinc-300 font-normal">
-                            ({product.reviewCount || 45})
-                          </span>
-                        </div>
-                      </div>
-
-                      {/* Price & Add to Cart Controls */}
-                      <div className="mt-4 pt-3 border-t border-zinc-50">
-                        <div className="flex items-baseline gap-2">
-                          <span className="font-black text-base text-zinc-800">
-                            ₹{product.price}
-                          </span>
-                          {product.originalPrice && (
-                            <span className="text-zinc-400 line-through text-xs">
-                              ₹{product.originalPrice}
+                          {/* Discount tag pill */}
+                          {discountPercent > 0 && (
+                            <span className="absolute bottom-3 left-3 bg-red-600 text-white text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider shadow-sm">
+                              {discountPercent}% OFF
                             </span>
                           )}
                         </div>
 
-                        {/* Quantity controls if already in cart */}
+                        {/* Product Meta */}
+                        <div className="space-y-1">
+                          <div className="flex items-center justify-between">
+                            <span className="text-[10px] text-zinc-400 font-bold uppercase tracking-wider">
+                              {product.brand || product.category}
+                            </span>
+                            <div className="flex items-center gap-1 text-[11px] text-zinc-500 font-semibold">
+                              <span className="text-yellow-400">★</span>
+                              <span>{product.rating}</span>
+                              <span className="text-zinc-300 font-normal">({product.reviewCount || 45})</span>
+                            </div>
+                          </div>
+                          <Link to={`/product/${productKey}`}>
+                            <h3 className="font-display text-base font-bold text-primary group-hover:text-zinc-600 transition truncate">
+                              {product.name}
+                            </h3>
+                          </Link>
+                          <p className="text-xs text-zinc-400 line-clamp-1">
+                            {product.description}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Pricing & Cart Controls */}
+                      <div className="mt-4 pt-3 border-t border-zinc-100">
+                        <div className="flex items-baseline gap-2">
+                          <span className="font-bold text-primary text-base">
+                            ₹{product.price.toLocaleString("en-IN")}
+                          </span>
+                          {product.originalPrice && (
+                            <span className="text-zinc-400 line-through text-xs">
+                              ₹{product.originalPrice.toLocaleString("en-IN")}
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Quantity adjust or Add CTA */}
                         {cartItem ? (
-                          <div className="mt-3 flex items-center justify-between border border-zinc-200 rounded-xl overflow-hidden bg-zinc-50">
+                          <div className="mt-3 flex items-center justify-between border border-zinc-200 rounded-full overflow-hidden bg-zinc-50 h-9">
                             <button
-                              className="bg-zinc-200/60 text-zinc-700 px-3.5 py-1.5 hover:bg-zinc-200 transition font-bold"
+                              className="text-zinc-500 px-3.5 hover:bg-zinc-200/50 hover:text-primary transition font-bold h-full"
                               onClick={() => updateQty(productKey, cartItem.qty - 1)}
                             >
                               -
                             </button>
-                            <span className="px-4 font-bold text-xs text-zinc-800">
+                            <span className="font-bold text-xs text-zinc-800">
                               {cartItem.qty}
                             </span>
                             <button
-                              className="bg-zinc-200/60 text-zinc-700 px-3.5 py-1.5 hover:bg-zinc-200 transition font-bold"
+                              className="text-zinc-500 px-3.5 hover:bg-zinc-200/50 hover:text-primary transition font-bold h-full"
                               onClick={() => updateQty(productKey, cartItem.qty + 1)}
                             >
                               +
@@ -338,23 +342,24 @@ const Listing = () => {
                         ) : (
                           <button
                             onClick={() => handleAddCart(product)}
-                            className="mt-3 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-xl text-xs font-bold transition shadow-sm"
+                            className="mt-3 w-full bg-primary hover:bg-zinc-800 text-white py-2 rounded-full text-xs font-semibold transition shadow-sm"
                           >
                             Add to Cart
                           </button>
                         )}
                       </div>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
-          ) : (
-            <div className="text-center py-20 bg-white border border-zinc-200 rounded-2xl shadow-sm">
-              <span className="text-4xl">🔍</span>
-              <p className="mt-4 text-zinc-500 font-medium">No products found matching your filters.</p>
-            </div>
-          )}
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="text-center py-24 bg-zinc-50/50 border border-zinc-100 rounded-3xl max-w-xl mx-auto space-y-3">
+                <span className="text-4xl">🔍</span>
+                <h3 className="font-display text-lg font-bold text-primary">No results found</h3>
+                <p className="text-zinc-500 text-sm max-w-xs mx-auto">Try clearing search filters or modifying search keywords.</p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

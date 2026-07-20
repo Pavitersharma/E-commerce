@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-  const notify = () => toast("Registration successful! Redirecting to login...");
+  const notify = () => toast.success("Registration successful! Welcome, redirecting to sign in...");
 
   const validationSchema = Yup.object({
     name: Yup.string()
@@ -37,18 +37,18 @@ const Register = () => {
           values
         );
 
-        console.log(" Server response:", res.data);
+        console.log("Server response:", res.data);
         notify();
         resetForm(); // clear input fields
         setTimeout(() => {
           navigate("/login");
-        }, 2000);
+        }, 1500);
       } catch (error) {
         console.error(
-          " Error:",
+          "Error:",
           error.response ? error.response.data : error.message
         );
-        toast.error(error.response?.data || error.message || "Registration failed");
+        toast.error(error.response?.data?.message || error.message || "Registration failed");
       }
     },
   });
@@ -56,113 +56,113 @@ const Register = () => {
   const togglePassword = () => setShowPassword(!showPassword);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-20">
-      <div className="bg-white border border-gray-300 p-6 sm:p-10 rounded-md shadow-md w-full max-w-md">
-        {/* Logo / Home Link */}
-        <Link
-          to="/"
-          className="text-3xl font-bold text-center mb-6 flex items-center justify-center"
-        >
-          BrandShut
-        </Link>
-
-        <p className="text-center text-gray-500 mt-1">Create an account</p>
+    <div className="min-h-screen flex items-center justify-center bg-[#FCFBF8] pt-20 px-4">
+      <div className="bg-white border border-zinc-150 p-8 sm:p-10 rounded-3xl shadow-soft w-full max-w-md space-y-6">
+        
+        <div className="text-center space-y-2">
+          <Link
+            to="/"
+            className="font-display text-3xl font-bold text-primary tracking-tight hover:opacity-90 block"
+          >
+            BrandShut
+          </Link>
+          <p className="text-xs sm:text-sm text-zinc-550">Create an account to start shopping premium collections.</p>
+        </div>
 
         {/* ✅ Formik Form */}
-        <form onSubmit={formik.handleSubmit} className="space-y-4 mt-5">
+        <form onSubmit={formik.handleSubmit} className="space-y-4">
           {/* Name */}
-          <div>
-            <label className="block text-sm font-medium">Name</label>
+          <div className="space-y-1.5">
+            <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400">Full Name</label>
             <input
               type="text"
               name="name"
-              placeholder="Enter your name"
-              className={`mt-1 w-full px-4 py-2 border ${
+              placeholder="e.g. John Doe"
+              className={`w-full px-4 py-2.5 border ${
                 formik.touched.name && formik.errors.name
                   ? "border-red-500"
-                  : "border-gray-300"
-              } rounded focus:outline-none focus:ring-2 focus:ring-cyan-400`}
+                  : "border-zinc-250 focus:border-primary"
+              } rounded-xl focus:outline-none bg-zinc-50/10 text-sm transition-colors`}
               value={formik.values.name}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
             {formik.touched.name && formik.errors.name && (
-              <p className="text-red-500 text-xs mt-1">{formik.errors.name}</p>
+              <p className="text-red-500 text-xs mt-1 font-medium">{formik.errors.name}</p>
             )}
           </div>
 
           {/* Email */}
-          <div>
-            <label className="block text-sm font-medium">Email</label>
+          <div className="space-y-1.5">
+            <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400">Email Address</label>
             <input
               type="email"
               name="email"
-              placeholder="Enter your email"
-              className={`mt-1 w-full px-4 py-2 border ${
+              placeholder="e.g. john@example.com"
+              className={`w-full px-4 py-2.5 border ${
                 formik.touched.email && formik.errors.email
                   ? "border-red-500"
-                  : "border-gray-300"
-              } rounded focus:outline-none focus:ring-2 focus:ring-cyan-400`}
+                  : "border-zinc-250 focus:border-primary"
+              } rounded-xl focus:outline-none bg-zinc-50/10 text-sm transition-colors`}
               value={formik.values.email}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
             {formik.touched.email && formik.errors.email && (
-              <p className="text-red-500 text-xs mt-1">{formik.errors.email}</p>
+              <p className="text-red-500 text-xs mt-1 font-medium">{formik.errors.email}</p>
             )}
           </div>
 
           {/* Password */}
-          <div>
-            <label className="block text-sm font-medium">Password</label>
+          <div className="space-y-1.5">
+            <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400">Password</label>
             <div className="relative">
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
-                placeholder="Enter your password"
-                className={`mt-1 w-full px-4 py-2 pr-10 border ${
+                placeholder="Create password"
+                className={`w-full px-4 py-2.5 pr-10 border ${
                   formik.touched.password && formik.errors.password
                     ? "border-red-500"
-                    : "border-gray-300"
-                } rounded focus:outline-none focus:ring-2 focus:ring-cyan-400`}
+                    : "border-zinc-250 focus:border-primary"
+                } rounded-xl focus:outline-none bg-zinc-50/10 text-sm transition-colors`}
                 value={formik.values.password}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               />
               <span
                 onClick={togglePassword}
-                className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-500 cursor-pointer"
+                className="absolute top-1/2 right-3.5 transform -translate-y-1/2 text-zinc-405 cursor-pointer hover:text-primary transition-colors text-sm"
               >
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
               </span>
             </div>
             {formik.touched.password && formik.errors.password && (
-              <p className="text-red-500 text-xs mt-1">
+              <p className="text-red-500 text-xs mt-1 font-medium">
                 {formik.errors.password}
               </p>
             )}
           </div>
 
           {/* Submit */}
-          <div className="">
+          <div className="pt-2">
             <button
               type="submit"
-              className="w-full py-2 bg-cyan-600 hover:bg-cyan-700 text-white font-medium rounded"
-              
+              className="w-full py-3 bg-primary hover:bg-zinc-800 text-white font-semibold rounded-full text-sm transition shadow-sm"
             >
-              Register
+              Sign Up
             </button>
           </div>
         </form>
 
         {/* Login Link */}
-        <p className="text-center text-sm mt-5">
-          Already Have An Account?{" "}
+        <p className="text-center text-xs sm:text-sm text-zinc-500 pt-2">
+          Already have an account?{" "}
           <Link
             to="/login"
-            className="text-cyan-600 font-medium cursor-pointer"
+            className="text-primary font-bold hover:underline"
           >
-            Login
+            Sign In
           </Link>
         </p>
       </div>

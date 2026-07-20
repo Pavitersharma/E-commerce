@@ -2,119 +2,105 @@ import React from "react";
 import { FaFacebook, FaInstagram, FaYoutube, FaPhoneAlt } from "react-icons/fa";
 import { FaTwitter } from "react-icons/fa";
 import { CiLocationOn } from "react-icons/ci";
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
     <>
-      <hr className="text-zinc-400 mt-5" />
-      <div className="container mx-auto px-4 py-8 sm:p-10">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* Brand Column */}
-          <div>
-            <h2 className="font-bold text-2xl">BrandShut</h2>
-            <p className="text-zinc-500 mt-4 text-sm leading-relaxed">
-              BrandShut is a modern e-commerce platform offering premium shopping experiences with secure payments and fast delivery.
-            </p>
-            <div className="flex items-center gap-5 mt-5 text-zinc-600">
-              <FaFacebook className="hover:text-blue-600 cursor-pointer transition" />
-              <FaTwitter className="hover:text-blue-400 cursor-pointer transition" />
-              <FaInstagram className="hover:text-pink-500 cursor-pointer transition" />
-              <FaYoutube className="hover:text-red-600 cursor-pointer transition" />
-            </div>
-          </div>
-
-          {/* Fashion Column */}
-          <div>
-            <h4 className="font-semibold text-lg mb-3">Fashion</h4>
-            <ul className="text-zinc-500 space-y-2 text-sm">
-              <li className="hover:text-zinc-800 cursor-pointer transition">Jeans</li>
-              <li className="hover:text-zinc-800 cursor-pointer transition">Tshirt</li>
-              <li className="hover:text-zinc-800 cursor-pointer transition">Shirts</li>
-              <li className="hover:text-zinc-800 cursor-pointer transition">Caps</li>
-              <li className="hover:text-zinc-800 cursor-pointer transition">Shoes</li>
-            </ul>
-          </div>
-
-          {/* Support Column */}
-          <div className="text-left space-y-2">
-            <h4 className="font-semibold text-black text-lg mb-3">Support</h4>
-            <ul className="space-y-2 text-sm text-gray-600">
-              <li>
-                <a href="#" className="hover:text-black transition">
-                  Order Help
+      <footer className="bg-zinc-50 border-t border-zinc-100 mt-20">
+        <div className="container mx-auto px-4 py-16 sm:px-6 max-w-7xl">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
+            {/* Brand Column */}
+            <div className="space-y-6">
+              <Link to="/" className="font-display text-2xl text-primary font-bold tracking-tight">
+                BrandShut
+              </Link>
+              <p className="text-zinc-500 text-sm leading-relaxed max-w-sm">
+                BrandShut is a modern e-commerce platform offering premium shopping experiences with secure payments and fast delivery.
+              </p>
+              <div className="flex items-center gap-4 text-zinc-400">
+                <a href="#" className="hover:text-primary transition-colors duration-200">
+                  <FaFacebook size={18} />
                 </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-black transition">
-                  Size & Fit Guide
+                <a href="#" className="hover:text-primary transition-colors duration-200">
+                  <FaTwitter size={18} />
                 </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-black transition">
-                  Shipping Information
+                <a href="#" className="hover:text-primary transition-colors duration-200">
+                  <FaInstagram size={18} />
                 </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-black transition">
-                  Return & Exchange Policy
+                <a href="#" className="hover:text-primary transition-colors duration-200">
+                  <FaYoutube size={18} />
                 </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-black transition">
-                  Track Your Order
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-black transition">
-                  Contact Fashion Support
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Contact & Newsletter Column */}
-          <div className="space-y-4 text-sm text-gray-700">
-            <div>
-              <h3 className="font-semibold text-black text-lg mb-3">Contact Us</h3>
-              <div className="flex items-center gap-2 mt-2 text-gray-500">
-                <span>
-                  <CiLocationOn />
-                </span>
-                <span>Delhi NCR, India</span>
-              </div>
-              <div className="flex items-center gap-2 text-gray-500 mt-1">
-                <span>
-                  <FaPhoneAlt />
-                </span>
-                <span>+91 8278010252</span>
-              </div>
-              <div className="flex items-center gap-2 text-gray-500 mt-1">
-                <span>✉</span>
-                <span>support@brandshut.com</span>
               </div>
             </div>
 
-            <div>
-              <h4 className="font-semibold text-black">Stay Updated</h4>
-              <div className="flex mt-2">
+            {/* Collection Column */}
+            <div className="space-y-4">
+              <h4 className="font-semibold text-sm text-primary uppercase tracking-wider">Shop Collections</h4>
+              <ul className="space-y-2.5 text-zinc-500 text-sm">
+                <li>
+                  <Link to="/listing?category=shirt" className="hover:text-primary transition-colors">Shirts</Link>
+                </li>
+                <li>
+                  <Link to="/listing?category=jeans,trousers" className="hover:text-primary transition-colors">Jeans & Trousers</Link>
+                </li>
+                <li>
+                  <Link to="/listing?category=shoes" className="hover:text-primary transition-colors">Shoes</Link>
+                </li>
+                <li>
+                  <Link to="/listing?category=accessories" className="hover:text-primary transition-colors">Accessories</Link>
+                </li>
+              </ul>
+            </div>
+
+            {/* Customer Support Column */}
+            <div className="space-y-4">
+              <h4 className="font-semibold text-sm text-primary uppercase tracking-wider">Customer Care</h4>
+              <div className="space-y-3 text-zinc-500 text-sm">
+                <div className="flex items-start gap-2.5">
+                  <CiLocationOn className="text-lg text-zinc-400 mt-0.5 shrink-0" />
+                  <span>Delhi NCR, India</span>
+                </div>
+                <div className="flex items-center gap-2.5">
+                  <FaPhoneAlt className="text-zinc-400 shrink-0" />
+                  <span>+91 8278010252</span>
+                </div>
+                <div className="flex items-center gap-2.5">
+                  <span className="text-zinc-400 shrink-0 text-base">✉</span>
+                  <span>support@brandshut.com</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Newsletter Column */}
+            <div className="space-y-4">
+              <h4 className="font-semibold text-sm text-primary uppercase tracking-wider">Stay Updated</h4>
+              <p className="text-zinc-500 text-sm leading-relaxed">
+                Subscribe to receive special offers, new launches, and styling tips.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-2 max-w-sm">
                 <input
                   type="email"
-                  placeholder="Enter your email"
-                  className="w-full min-w-0 px-3 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-purple-400 text-sm"
+                  placeholder="Your email address"
+                  className="w-full px-4 py-2.5 border border-zinc-200 rounded-full focus:outline-none focus:border-primary text-sm bg-white"
                 />
-                <button className="px-4 py-2 bg-blue-500 text-white font-medium rounded-r-md hover:bg-blue-600 whitespace-nowrap text-sm flex-shrink-0">
+                <button className="px-6 py-2.5 bg-primary text-white font-medium rounded-full hover:bg-zinc-800 transition-colors whitespace-nowrap text-sm flex-shrink-0 shadow-sm">
                   Subscribe
                 </button>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Copyright */}
-        <div className="border-t border-zinc-200 mt-8 pt-6 text-center text-xs text-zinc-400">
-          © 2026 BrandShut. All rights reserved.
+          {/* Bottom Copyright */}
+          <div className="border-t border-zinc-200/60 mt-12 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-zinc-400">
+            <p>© 2026 BrandShut. All rights reserved.</p>
+            <div className="flex gap-6">
+              <a href="#" className="hover:text-primary transition-colors">Privacy Policy</a>
+              <a href="#" className="hover:text-primary transition-colors">Terms of Service</a>
+            </div>
+          </div>
         </div>
-      </div>
+      </footer>
     </>
   );
 };
