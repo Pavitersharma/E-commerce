@@ -1,13 +1,56 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #18181b; /* zinc-900 */
+  /* ─── Color Tokens (matching Lovable reference) ─── */
+  --color-background: #fcfbf8;
+  --color-foreground: #1a1a1a;
+  --color-card: #ffffff;
+  --color-primary: #18181b;
   --color-primary-foreground: #ffffff;
-  --color-secondary: #f4f4f5; /* zinc-100 */
+  --color-secondary: #f4f4f5;
   --color-secondary-foreground: #18181b;
-  --color-border: #e4e4e7; /* zinc-200 */
-  --color-muted: #71717a; /* zinc-500 */
-  
+  --color-muted-foreground: #71717a;
+  --color-border: #e4e4e7;
+  --color-accent: #7c3aed;
+
+  /* ─── Typography ─── */
   --font-display: "Playfair Display", Georgia, serif;
-  --font-sans: "Inter", sans-serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+
+  /* ─── Shadows ─── */
+  --shadow-soft: 0 2px 16px rgba(0, 0, 0, 0.06);
+  --shadow-lift: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* ─── Base Styles ─── */
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+}
+
+/* ─── Custom Scrollbar ─── */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 4px;
+}
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 9999px;
 }

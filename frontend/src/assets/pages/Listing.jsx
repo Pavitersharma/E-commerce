@@ -115,13 +115,13 @@ const Listing = () => {
     });
 
   return (
-    <div className="bg-white min-h-screen pt-20 sm:pt-24 pb-16">
+    <div className="bg-background min-h-screen pt-20 sm:pt-24 pb-16">
       <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
         {/* ================= HEADER ================= */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between border-b border-zinc-100 pb-5 mt-8 gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between border-b border-border pb-5 mt-8 gap-4">
           <div>
-            <h1 className="font-display text-3xl font-bold text-primary">Catalog</h1>
-            <p className="text-zinc-400 text-xs sm:text-sm font-medium mt-1">
+            <h1 className="font-display text-3xl font-extrabold tracking-tight text-foreground">Catalog</h1>
+            <p className="text-muted-foreground text-xs sm:text-sm font-medium mt-1">
               Showing {filteredProducts.length} Products
             </p>
           </div>
@@ -131,7 +131,7 @@ const Listing = () => {
             <select
               value={sortOrder}
               onChange={(e) => setSortOrder(e.target.value)}
-              className="border border-zinc-250 rounded-full px-4 py-2 bg-white text-xs font-semibold focus:outline-none focus:border-primary text-zinc-700 cursor-pointer"
+              className="border border-border rounded-full px-4 py-2 bg-card text-xs font-semibold focus:outline-none focus:border-foreground/30 text-foreground cursor-pointer"
             >
               <option value="">Sort by: Default</option>
               <option value="lowtohigh">Price: Low to High</option>
@@ -142,10 +142,10 @@ const Listing = () => {
 
         {/* ================= SEARCH INPUT ================= */}
         <div className="relative mt-6">
-          <CiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400 text-xl" />
+          <CiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground text-xl" />
           <input
             type="text"
-            className="w-full pl-11 pr-4 py-3 border border-zinc-200 focus:border-primary bg-zinc-50/30 rounded-full outline-none text-sm font-normal text-zinc-800 placeholder-zinc-400 transition-all"
+            className="w-full pl-11 pr-4 py-3 border border-border focus:border-foreground/30 bg-card/70 rounded-full outline-none text-sm font-normal text-foreground placeholder-muted-foreground transition-all"
             placeholder="Search catalog for clothing, accessories, or footwear..."
             value={search}
             onChange={(e) => {
@@ -163,19 +163,19 @@ const Listing = () => {
         <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-10 mt-10">
           {/* ================= SIDEBAR FILTERS ================= */}
           <div className="space-y-8">
-            <div className="border border-zinc-100 p-6 rounded-3xl bg-white shadow-soft h-fit">
-              <div className="text-sm font-bold text-primary flex items-center gap-2 border-b border-zinc-100 pb-3.5 mb-5">
+            <div className="border border-border p-6 rounded-3xl bg-card shadow-soft h-fit">
+              <div className="text-sm font-bold text-foreground flex items-center gap-2 border-b border-border pb-3.5 mb-5">
                 <CiFilter className="text-base font-bold" />
                 <span>Filters</span>
               </div>
 
               {/* Categories */}
               <div className="space-y-4">
-                <h4 className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Categories</h4>
-                <div className="flex flex-col gap-3 text-xs sm:text-sm text-zinc-600 font-medium">
+                <h4 className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider">Categories</h4>
+                <div className="flex flex-col gap-3 text-xs sm:text-sm text-foreground/80 font-medium">
                   {["shirt", "jeans", "trousers", "shoes", "tshirt", "accessories"].map(
                     (cat) => (
-                      <label key={cat} className="flex items-center gap-2.5 cursor-pointer hover:text-primary transition-colors">
+                      <label key={cat} className="flex items-center gap-2.5 cursor-pointer hover:text-foreground transition-colors">
                         <input
                           type="checkbox"
                           value={cat}
@@ -193,35 +193,35 @@ const Listing = () => {
               {/* Clear Filters */}
               <button
                 onClick={handleClearFilters}
-                className="mt-6 w-full py-2.5 bg-zinc-50 border border-zinc-200 hover:border-zinc-300 rounded-full text-xs font-semibold transition-all text-zinc-600 shadow-sm"
+                className="mt-6 w-full py-2.5 bg-secondary border border-border hover:border-foreground/30 rounded-full text-xs font-semibold transition-all text-foreground/70 shadow-sm"
               >
                 Clear All Filters
               </button>
             </div>
 
             {/* 🛒 Cart Summary widget inside sidebar */}
-            <div className="border border-zinc-100 p-6 rounded-3xl bg-[#FCFBF8] shadow-soft">
-              <h3 className="font-display text-sm font-bold text-primary mb-4 flex items-center gap-2">
+            <div className="border border-border p-6 rounded-3xl bg-background shadow-soft">
+              <h3 className="font-display text-sm font-bold text-foreground mb-4 flex items-center gap-2">
                 <span>🛒</span> Cart Preview
               </h3>
               {cart.length === 0 ? (
-                <p className="text-xs text-zinc-400">Your cart is currently empty.</p>
+                <p className="text-xs text-muted-foreground">Your cart is currently empty.</p>
               ) : (
                 <div className="space-y-4">
                   <ul className="space-y-2 text-xs text-zinc-600 max-h-48 overflow-y-auto pr-1">
                     {cart.map((item) => {
                       const itemKey = item._id || item.id;
                       return (
-                        <li key={itemKey} className="flex justify-between font-semibold border-b border-zinc-100/50 pb-2 last:border-0 last:pb-0">
-                          <span className="truncate max-w-[150px] text-zinc-800">{item.name}</span>
-                          <span className="text-zinc-500">x{item.qty}</span>
+                        <li key={itemKey} className="flex justify-between font-semibold border-b border-border/50 pb-2 last:border-0 last:pb-0">
+                          <span className="truncate max-w-[150px] text-foreground">{item.name}</span>
+                          <span className="text-muted-foreground">x{item.qty}</span>
                         </li>
                       );
                     })}
                   </ul>
                   <Link
                     to="/cart"
-                    className="block text-center bg-primary hover:bg-zinc-800 text-white font-semibold text-xs py-2.5 rounded-full transition shadow-sm"
+                    className="block text-center bg-primary hover:opacity-90 text-primary-foreground font-semibold text-xs py-2.5 rounded-full transition shadow-sm"
                   >
                     View Full Cart
                   </Link>
@@ -236,9 +236,9 @@ const Listing = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
                 {Array.from({ length: 6 }).map((_, i) => (
                   <div key={i} className="animate-pulse space-y-4">
-                    <div className="bg-zinc-100 rounded-2xl aspect-[4/5]" />
-                    <div className="h-4 bg-zinc-100 rounded w-2/3" />
-                    <div className="h-4 bg-zinc-100 rounded w-1/3" />
+                    <div className="bg-secondary rounded-2xl aspect-[4/5]" />
+                    <div className="h-4 bg-secondary rounded w-2/3" />
+                    <div className="h-4 bg-secondary rounded w-1/3" />
                   </div>
                 ))}
               </div>
@@ -255,7 +255,7 @@ const Listing = () => {
                     <div key={productKey} className="group flex flex-col justify-between transition-all duration-200">
                       {/* Image + Info container */}
                       <div className="space-y-4">
-                        <div className="relative aspect-[4/5] w-full rounded-2xl bg-[#F6F6F6] border border-zinc-100/50 flex items-center justify-center overflow-hidden transition-all duration-300 group-hover:shadow-soft">
+                        <div className="relative aspect-[4/5] w-full rounded-2xl bg-secondary border border-border/40 flex items-center justify-center overflow-hidden transition-all duration-300 group-hover:shadow-soft">
                           <Link to={`/product/${productKey}`} className="w-full h-full flex items-center justify-center">
                             <img
                               src={getImageAsset(product.image)}
@@ -267,7 +267,7 @@ const Listing = () => {
                           {/* Wishlist Icon */}
                           <button
                             onClick={() => toggleWishlist(productKey)}
-                            className="absolute top-3 right-3 h-8 w-8 bg-white/90 hover:bg-white border border-zinc-100 rounded-full flex items-center justify-center text-zinc-400 hover:text-primary shadow-sm transition"
+                            className="absolute top-3 right-3 h-10 w-10 bg-card/90 hover:bg-card border border-border/40 rounded-full flex items-center justify-center text-foreground shadow-soft backdrop-blur transition"
                           >
                             {wishlist.includes(productKey) ? (
                               <FaHeart className="text-red-500 text-xs" />
@@ -287,34 +287,34 @@ const Listing = () => {
                         {/* Product Meta */}
                         <div className="space-y-1">
                           <div className="flex items-center justify-between">
-                            <span className="text-[10px] text-zinc-400 font-bold uppercase tracking-wider">
+                            <span className="text-[10px] text-muted-foreground font-semibold uppercase tracking-wider">
                               {product.brand || product.category}
                             </span>
-                            <div className="flex items-center gap-1 text-[11px] text-zinc-500 font-semibold">
-                              <span className="text-yellow-400">★</span>
+                            <div className="flex items-center gap-1 text-[11px] text-foreground font-medium">
+                              <span className="text-amber-500">★</span>
                               <span>{product.rating}</span>
-                              <span className="text-zinc-300 font-normal">({product.reviewCount || 45})</span>
+                              <span className="text-muted-foreground font-normal">({product.reviewCount || 45})</span>
                             </div>
                           </div>
                           <Link to={`/product/${productKey}`}>
-                            <h3 className="font-display text-base font-bold text-primary group-hover:text-zinc-600 transition truncate">
+                            <h3 className="text-[15px] font-semibold text-foreground group-hover:text-foreground/70 transition truncate">
                               {product.name}
                             </h3>
                           </Link>
-                          <p className="text-xs text-zinc-400 line-clamp-1">
+                          <p className="text-xs text-muted-foreground line-clamp-1">
                             {product.description}
                           </p>
                         </div>
                       </div>
 
                       {/* Pricing & Cart Controls */}
-                      <div className="mt-4 pt-3 border-t border-zinc-100">
+                      <div className="mt-4 pt-3 border-t border-border">
                         <div className="flex items-baseline gap-2">
-                          <span className="font-bold text-primary text-base">
+                          <span className="font-semibold text-foreground text-sm">
                             ₹{product.price.toLocaleString("en-IN")}
                           </span>
                           {product.originalPrice && (
-                            <span className="text-zinc-400 line-through text-xs">
+                            <span className="text-muted-foreground line-through text-xs">
                               ₹{product.originalPrice.toLocaleString("en-IN")}
                             </span>
                           )}
@@ -322,18 +322,18 @@ const Listing = () => {
 
                         {/* Quantity adjust or Add CTA */}
                         {cartItem ? (
-                          <div className="mt-3 flex items-center justify-between border border-zinc-200 rounded-full overflow-hidden bg-zinc-50 h-9">
+                          <div className="mt-3 flex items-center justify-between border border-border rounded-full overflow-hidden bg-secondary h-9">
                             <button
-                              className="text-zinc-500 px-3.5 hover:bg-zinc-200/50 hover:text-primary transition font-bold h-full"
+                              className="text-muted-foreground px-3.5 hover:bg-border/50 hover:text-foreground transition font-bold h-full"
                               onClick={() => updateQty(productKey, cartItem.qty - 1)}
                             >
                               -
                             </button>
-                            <span className="font-bold text-xs text-zinc-800">
+                            <span className="font-bold text-xs text-foreground">
                               {cartItem.qty}
                             </span>
                             <button
-                              className="text-zinc-500 px-3.5 hover:bg-zinc-200/50 hover:text-primary transition font-bold h-full"
+                              className="text-muted-foreground px-3.5 hover:bg-border/50 hover:text-foreground transition font-bold h-full"
                               onClick={() => updateQty(productKey, cartItem.qty + 1)}
                             >
                               +
@@ -342,7 +342,7 @@ const Listing = () => {
                         ) : (
                           <button
                             onClick={() => handleAddCart(product)}
-                            className="mt-3 w-full bg-primary hover:bg-zinc-800 text-white py-2 rounded-full text-xs font-semibold transition shadow-sm"
+                            className="mt-3 w-full bg-primary hover:opacity-90 text-primary-foreground py-2 rounded-full text-xs font-semibold transition shadow-sm"
                           >
                             Add to Cart
                           </button>
@@ -353,10 +353,10 @@ const Listing = () => {
                 })}
               </div>
             ) : (
-              <div className="text-center py-24 bg-zinc-50/50 border border-zinc-100 rounded-3xl max-w-xl mx-auto space-y-3">
+              <div className="text-center py-24 bg-secondary/50 border border-border rounded-3xl max-w-xl mx-auto space-y-3">
                 <span className="text-4xl">🔍</span>
-                <h3 className="font-display text-lg font-bold text-primary">No results found</h3>
-                <p className="text-zinc-500 text-sm max-w-xs mx-auto">Try clearing search filters or modifying search keywords.</p>
+                <h3 className="font-display text-lg font-bold text-foreground">No results found</h3>
+                <p className="text-muted-foreground text-sm max-w-xs mx-auto">Try clearing search filters or modifying search keywords.</p>
               </div>
             )}
           </div>

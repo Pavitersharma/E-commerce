@@ -73,13 +73,13 @@ const Dashboard = () => {
   if (!user) return null;
 
   return (
-    <div className="bg-white min-h-screen pt-20 sm:pt-24 pb-16">
+    <div className="bg-background min-h-screen pt-20 sm:pt-24 pb-16">
       <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
         
         {/* Header */}
-        <div className="border-b border-zinc-100 pb-5 mt-8 mb-10">
-          <h1 className="font-display text-3xl font-bold text-primary">My Account</h1>
-          <p className="text-zinc-400 text-xs sm:text-sm font-medium mt-1">
+        <div className="border-b border-border pb-5 mt-8 mb-10">
+          <h1 className="font-display text-3xl font-extrabold tracking-tight text-foreground">My Account</h1>
+          <p className="text-muted-foreground text-xs sm:text-sm font-medium mt-1">
             Manage your personal profile and track your orders
           </p>
         </div>
@@ -88,34 +88,34 @@ const Dashboard = () => {
           
           {/* Left Column: Sidebar Profile Details */}
           <div className="space-y-6">
-            <div className="border border-zinc-150 rounded-3xl p-6 text-center bg-[#FCFBF8]">
-              <div className="w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto shadow-sm">
+            <div className="border border-border rounded-3xl p-6 text-center bg-card shadow-soft">
+              <div className="w-16 h-16 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-2xl font-bold mx-auto shadow-sm">
                 {user.name.charAt(0).toUpperCase()}
               </div>
-              <h2 className="font-display text-lg font-bold text-primary mt-4">{user.name}</h2>
-              <p className="text-[10px] text-zinc-400 font-bold uppercase tracking-wider mt-0.5">Account Member</p>
+              <h2 className="font-display text-lg font-bold text-foreground mt-4">{user.name}</h2>
+              <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider mt-0.5">Account Member</p>
               
-              <div className="border-t border-zinc-150/60 mt-6 pt-6 flex flex-col gap-3.5 text-left text-xs sm:text-sm text-zinc-550 font-medium">
+              <div className="border-t border-border mt-6 pt-6 flex flex-col gap-3.5 text-left text-xs sm:text-sm text-foreground/80 font-medium">
                 <p className="flex items-center gap-3">
-                  <FaEnvelope className="text-zinc-400 flex-shrink-0" />
+                  <FaEnvelope className="text-muted-foreground flex-shrink-0" />
                   <span className="truncate">{user.email}</span>
                 </p>
                 <p className="flex items-center gap-3">
-                  <FaPhone className="text-zinc-400 flex-shrink-0" />
+                  <FaPhone className="text-muted-foreground flex-shrink-0" />
                   <span>{user.phone || "No phone added"}</span>
                 </p>
                 <p className="flex items-start gap-3">
-                  <FaMapMarkerAlt className="text-zinc-400 mt-0.5 flex-shrink-0" />
+                  <FaMapMarkerAlt className="text-muted-foreground mt-0.5 flex-shrink-0" />
                   <span className="line-clamp-2">{user.address || "No shipping address added"}</span>
                 </p>
               </div>
 
-              <div className="mt-6 pt-5 border-t border-zinc-150/60 flex flex-col gap-2.5">
+              <div className="mt-6 pt-5 border-t border-border flex flex-col gap-2.5">
                 <button
                   onClick={() => setIsEditing(!isEditing)}
-                  className="w-full bg-white border border-zinc-200 hover:border-primary text-primary font-semibold py-2 px-4 rounded-full flex items-center justify-center gap-2 transition text-xs sm:text-sm shadow-sm"
+                  className="w-full bg-card border border-border hover:border-foreground text-foreground font-semibold py-2 px-4 rounded-full flex items-center justify-center gap-2 transition text-xs sm:text-sm shadow-sm"
                 >
-                  <FaEdit size={12} className="text-zinc-400" /> Edit Profile
+                  <FaEdit size={12} className="text-muted-foreground" /> Edit Profile
                 </button>
                 <button
                   onClick={() => {
@@ -135,15 +135,15 @@ const Dashboard = () => {
             
             {/* Edit Profile Form Panel */}
             {isEditing && (
-              <div className="border border-zinc-150 rounded-3xl p-6 bg-white shadow-soft">
-                <h3 className="font-display text-base sm:text-lg font-bold text-primary border-b border-zinc-100 pb-3 mb-5">Update Profile Details</h3>
+              <div className="border border-border rounded-3xl p-6 bg-card shadow-soft">
+                <h3 className="font-display text-base sm:text-lg font-bold text-foreground border-b border-border pb-3 mb-5">Update Profile Details</h3>
                 <form onSubmit={profileForm.handleSubmit} className="space-y-4">
                   <div className="space-y-1.5">
-                    <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400">Full Name</label>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">Full Name</label>
                     <input
                       type="text"
                       name="name"
-                      className="w-full border border-zinc-200 focus:border-primary bg-zinc-50/10 rounded-xl px-4 py-2.5 text-sm focus:outline-none transition-colors"
+                      className="w-full border border-border focus:border-foreground/30 bg-background rounded-xl px-4 py-2.5 text-sm focus:outline-none transition-colors"
                       value={profileForm.values.name}
                       onChange={profileForm.handleChange}
                       onBlur={profileForm.handleBlur}
@@ -154,12 +154,12 @@ const Dashboard = () => {
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400">Mobile Number (10 digits)</label>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">Mobile Number (10 digits)</label>
                     <input
                       type="text"
                       name="phone"
                       maxLength={10}
-                      className="w-full border border-zinc-200 focus:border-primary bg-zinc-50/10 rounded-xl px-4 py-2.5 text-sm focus:outline-none transition-colors"
+                      className="w-full border border-border focus:border-foreground/30 bg-background rounded-xl px-4 py-2.5 text-sm focus:outline-none transition-colors"
                       placeholder="e.g. 9876543210"
                       value={profileForm.values.phone}
                       onChange={profileForm.handleChange}
@@ -171,11 +171,11 @@ const Dashboard = () => {
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400">Default Address</label>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">Default Address</label>
                     <textarea
                       name="address"
                       rows={3}
-                      className="w-full border border-zinc-200 focus:border-primary bg-zinc-50/10 rounded-xl px-4 py-2.5 text-sm focus:outline-none resize-none transition-colors"
+                      className="w-full border border-border focus:border-foreground/30 bg-background rounded-xl px-4 py-2.5 text-sm focus:outline-none resize-none transition-colors"
                       placeholder="e.g. Apartment, Building, Area, Pincode"
                       value={profileForm.values.address}
                       onChange={profileForm.handleChange}
@@ -189,14 +189,14 @@ const Dashboard = () => {
                   <div className="flex gap-3 pt-2">
                     <button
                       type="submit"
-                      className="bg-primary hover:bg-zinc-800 text-white font-semibold py-2.5 px-6 rounded-full text-xs sm:text-sm transition shadow-sm"
+                      className="bg-primary hover:opacity-90 text-primary-foreground font-semibold py-2.5 px-6 rounded-full text-xs sm:text-sm transition shadow-sm"
                     >
                       Save Changes
                     </button>
                     <button
                       type="button"
                       onClick={() => setIsEditing(false)}
-                      className="border border-zinc-200 text-zinc-600 hover:border-primary font-semibold py-2.5 px-6 rounded-full text-xs sm:text-sm hover:text-primary transition"
+                      className="border border-border text-foreground/80 hover:border-foreground font-semibold py-2.5 px-6 rounded-full text-xs sm:text-sm transition"
                     >
                       Cancel
                     </button>
@@ -206,12 +206,12 @@ const Dashboard = () => {
             )}
 
             {/* Recent Orders Panel */}
-            <div className="border border-zinc-150 rounded-3xl p-6 bg-white shadow-soft">
-              <div className="flex justify-between items-center border-b border-zinc-100 pb-3 mb-5">
-                <h3 className="font-display text-base sm:text-lg font-bold text-primary flex items-center gap-2">
-                  <FaBox className="text-primary text-sm" /> Recent Orders
+            <div className="border border-border rounded-3xl p-6 bg-card shadow-soft">
+              <div className="flex justify-between items-center border-b border-border pb-3 mb-5">
+                <h3 className="font-display text-base sm:text-lg font-bold text-foreground flex items-center gap-2">
+                  <FaBox className="text-foreground text-sm" /> Recent Orders
                 </h3>
-                <Link to="/orders" className="text-xs sm:text-sm font-semibold text-primary underline hover:opacity-80 transition-opacity">
+                <Link to="/orders" className="text-xs sm:text-sm font-semibold text-foreground underline hover:opacity-80 transition-opacity">
                   View All Orders
                 </Link>
               </div>
@@ -222,12 +222,12 @@ const Dashboard = () => {
                 </div>
               ) : recentOrders.length === 0 ? (
                 <div className="text-center py-8 space-y-4">
-                  <p className="text-zinc-500 text-xs sm:text-sm">You haven't placed any orders yet.</p>
+                  <p className="text-muted-foreground text-xs sm:text-sm">You haven't placed any orders yet.</p>
                   <Link
                     to="/listing"
-                    className="inline-flex items-center gap-2 bg-primary hover:bg-zinc-800 text-white font-semibold py-2.5 px-6 rounded-full transition shadow-sm text-xs"
+                    className="inline-flex items-center gap-2 bg-primary hover:opacity-90 text-primary-foreground font-semibold py-2.5 px-6 rounded-full transition shadow-sm text-xs"
                   >
-                    <FaShoppingBag size={10} className="text-zinc-300" /> Explore Products
+                    <FaShoppingBag size={10} className="text-primary-foreground/60" /> Explore Products
                   </Link>
                 </div>
               ) : (
@@ -235,21 +235,21 @@ const Dashboard = () => {
                   {recentOrders.map((order) => (
                     <div
                       key={order._id}
-                      className="border border-zinc-100 rounded-2xl p-4.5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:border-zinc-200 transition"
+                      className="border border-border rounded-2xl p-4.5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:border-foreground/30 transition"
                     >
                       <div className="space-y-1">
-                        <p className="text-[10px] text-zinc-400 font-bold uppercase font-mono">
+                        <p className="text-[10px] text-muted-foreground font-bold uppercase font-mono">
                           {order.orderId}
                         </p>
-                        <p className="text-sm font-bold text-primary">
+                        <p className="text-sm font-bold text-foreground">
                           {order.items.length} {order.items.length === 1 ? "Item" : "Items"}
                         </p>
-                        <p className="text-[11px] text-zinc-400 font-medium">
+                        <p className="text-[11px] text-muted-foreground font-medium">
                           {new Date(order.createdAt).toLocaleDateString("en-IN", { day: 'numeric', month: 'short', year: 'numeric' })}
                         </p>
                       </div>
                       <div className="flex items-center gap-4 w-full sm:w-auto justify-between sm:justify-end">
-                        <span className="text-base font-bold text-primary">
+                        <span className="text-base font-bold text-foreground">
                           ₹{order.totalAmount.toLocaleString("en-IN")}
                         </span>
                         <span

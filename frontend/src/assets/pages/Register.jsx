@@ -56,24 +56,24 @@ const Register = () => {
   const togglePassword = () => setShowPassword(!showPassword);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#FCFBF8] pt-20 px-4">
-      <div className="bg-white border border-zinc-150 p-8 sm:p-10 rounded-3xl shadow-soft w-full max-w-md space-y-6">
+    <div className="min-h-screen flex items-center justify-center bg-background pt-20 px-4">
+      <div className="bg-card border border-border p-8 sm:p-10 rounded-3xl shadow-soft w-full max-w-md space-y-6">
         
         <div className="text-center space-y-2">
           <Link
             to="/"
-            className="font-display text-3xl font-bold text-primary tracking-tight hover:opacity-90 block"
+            className="font-display text-3xl font-extrabold text-foreground tracking-tight hover:opacity-90 block"
           >
             BrandShut
           </Link>
-          <p className="text-xs sm:text-sm text-zinc-550">Create an account to start shopping premium collections.</p>
+          <p className="text-xs sm:text-sm text-muted-foreground">Create an account to start shopping premium collections.</p>
         </div>
 
         {/* ✅ Formik Form */}
         <form onSubmit={formik.handleSubmit} className="space-y-4">
           {/* Name */}
           <div className="space-y-1.5">
-            <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400">Full Name</label>
+            <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">Full Name</label>
             <input
               type="text"
               name="name"
@@ -81,8 +81,8 @@ const Register = () => {
               className={`w-full px-4 py-2.5 border ${
                 formik.touched.name && formik.errors.name
                   ? "border-red-500"
-                  : "border-zinc-250 focus:border-primary"
-              } rounded-xl focus:outline-none bg-zinc-50/10 text-sm transition-colors`}
+                  : "border-border focus:border-foreground/30"
+              } rounded-xl focus:outline-none bg-background text-sm transition-colors`}
               value={formik.values.name}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -94,7 +94,7 @@ const Register = () => {
 
           {/* Email */}
           <div className="space-y-1.5">
-            <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400">Email Address</label>
+            <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">Email Address</label>
             <input
               type="email"
               name="email"
@@ -102,8 +102,8 @@ const Register = () => {
               className={`w-full px-4 py-2.5 border ${
                 formik.touched.email && formik.errors.email
                   ? "border-red-500"
-                  : "border-zinc-250 focus:border-primary"
-              } rounded-xl focus:outline-none bg-zinc-50/10 text-sm transition-colors`}
+                  : "border-border focus:border-foreground/30"
+              } rounded-xl focus:outline-none bg-background text-sm transition-colors`}
               value={formik.values.email}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -115,7 +115,7 @@ const Register = () => {
 
           {/* Password */}
           <div className="space-y-1.5">
-            <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400">Password</label>
+            <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">Password</label>
             <div className="relative">
               <input
                 type={showPassword ? "text" : "password"}
@@ -132,7 +132,7 @@ const Register = () => {
               />
               <span
                 onClick={togglePassword}
-                className="absolute top-1/2 right-3.5 transform -translate-y-1/2 text-zinc-405 cursor-pointer hover:text-primary transition-colors text-sm"
+                className="absolute top-1/2 right-3.5 transform -translate-y-1/2 text-muted-foreground cursor-pointer hover:text-foreground transition-colors text-sm"
               >
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
               </span>
@@ -148,7 +148,7 @@ const Register = () => {
           <div className="pt-2">
             <button
               type="submit"
-              className="w-full py-3 bg-primary hover:bg-zinc-800 text-white font-semibold rounded-full text-sm transition shadow-sm"
+              className="w-full py-3 bg-primary hover:opacity-90 text-primary-foreground font-semibold rounded-full text-sm transition shadow-sm"
             >
               Sign Up
             </button>
@@ -156,11 +156,11 @@ const Register = () => {
         </form>
 
         {/* Login Link */}
-        <p className="text-center text-xs sm:text-sm text-zinc-500 pt-2">
+        <p className="text-center text-xs sm:text-sm text-muted-foreground pt-2">
           Already have an account?{" "}
           <Link
             to="/login"
-            className="text-primary font-bold hover:underline"
+            className="text-foreground font-bold hover:underline"
           >
             Sign In
           </Link>

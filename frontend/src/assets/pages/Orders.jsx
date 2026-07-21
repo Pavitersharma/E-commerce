@@ -38,16 +38,16 @@ const Orders = () => {
 
   if (!isAuthenticated) {
     return (
-      <div className="bg-white min-h-screen pt-20 sm:pt-24 pb-16 flex items-center justify-center">
-        <div className="bg-white border border-zinc-150 p-8 rounded-3xl max-w-md w-full text-center shadow-soft space-y-6">
+      <div className="bg-background min-h-screen pt-20 sm:pt-24 pb-16 flex items-center justify-center">
+        <div className="bg-card border border-border p-8 rounded-3xl max-w-md w-full text-center shadow-soft space-y-6">
           <div className="text-5xl">🔐</div>
-          <h2 className="font-display text-2xl font-bold text-primary">Login Required</h2>
-          <p className="text-zinc-500 text-sm leading-relaxed">
+          <h2 className="font-display text-2xl font-bold text-foreground">Login Required</h2>
+          <p className="text-muted-foreground text-sm leading-relaxed">
             Please log in to view your orders and track delivery status.
           </p>
           <button
             onClick={() => navigate("/login")}
-            className="w-full bg-primary hover:bg-zinc-800 text-white font-semibold py-3 px-4 rounded-full text-sm transition"
+            className="w-full bg-primary hover:opacity-90 text-primary-foreground font-semibold py-3 px-4 rounded-full text-sm transition"
           >
             Login to Your Account
           </button>
@@ -78,7 +78,7 @@ const Orders = () => {
         );
       default:
         return (
-          <span className="bg-zinc-100 text-zinc-650 border border-zinc-200 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+          <span className="bg-secondary text-foreground/80 border border-border text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
             {status}
           </span>
         );
@@ -86,15 +86,15 @@ const Orders = () => {
   };
 
   return (
-    <div className="bg-white min-h-screen pt-20 sm:pt-24 pb-16">
+    <div className="bg-background min-h-screen pt-20 sm:pt-24 pb-16">
       <div className="container mx-auto px-4 sm:px-6 max-w-4xl">
         
         {/* Header */}
-        <div className="border-b border-zinc-100 pb-5 mt-8 mb-10">
-          <h1 className="font-display text-3xl font-bold text-primary flex items-center gap-3">
-            <FaBoxOpen className="text-primary text-2xl sm:text-3xl" /> My Orders
+        <div className="border-b border-border pb-5 mt-8 mb-10">
+          <h1 className="font-display text-3xl font-extrabold tracking-tight text-foreground flex items-center gap-3">
+            <FaBoxOpen className="text-foreground text-2xl sm:text-3xl" /> My Orders
           </h1>
-          <p className="text-zinc-400 text-xs sm:text-sm font-medium mt-1">
+          <p className="text-muted-foreground text-xs sm:text-sm font-medium mt-1">
             Track shipping status and view invoice details of your purchases
           </p>
         </div>
@@ -104,17 +104,17 @@ const Orders = () => {
             <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-primary"></div>
           </div>
         ) : orders.length === 0 ? (
-          <div className="bg-[#FCFBF8] rounded-3xl border border-zinc-150 p-8 sm:p-12 text-center max-w-md mx-auto shadow-soft space-y-6">
+          <div className="bg-card rounded-3xl border border-border p-8 sm:p-12 text-center max-w-md mx-auto shadow-soft space-y-6">
             <div className="text-5xl">📦</div>
-            <h2 className="font-display text-2xl font-bold text-primary">No orders yet</h2>
-            <p className="text-zinc-500 text-sm leading-relaxed max-w-xs mx-auto">
+            <h2 className="font-display text-2xl font-bold text-foreground">No orders yet</h2>
+            <p className="text-muted-foreground text-sm leading-relaxed max-w-xs mx-auto">
               You haven't placed any orders yet. Let's find your first fashion item!
             </p>
             <Link
               to="/listing"
-              className="inline-flex items-center gap-2 bg-primary hover:bg-zinc-800 text-white font-semibold text-xs sm:text-sm px-6 py-2.5 rounded-full transition shadow-sm"
+              className="inline-flex items-center gap-2 bg-primary hover:opacity-90 text-primary-foreground font-semibold text-xs sm:text-sm px-6 py-2.5 rounded-full transition shadow-sm"
             >
-              Start Shopping <FaArrowRight size={10} className="text-zinc-300" />
+              Start Shopping <FaArrowRight size={10} className="text-primary-foreground/60" />
             </Link>
           </div>
         ) : (
@@ -122,23 +122,23 @@ const Orders = () => {
             {orders.map((order) => (
               <div
                 key={order._id}
-                className="bg-white border border-zinc-150 rounded-3xl overflow-hidden shadow-soft transition-all hover:border-zinc-250"
+                className="bg-card border border-border rounded-3xl overflow-hidden shadow-soft transition-all hover:border-foreground/30"
               >
                 {/* Order Header Grid */}
-                <div className="bg-[#FCFBF8] border-b border-zinc-150 px-6 py-5 grid grid-cols-2 md:grid-cols-4 gap-4 items-center">
+                <div className="bg-secondary/40 border-b border-border px-6 py-5 grid grid-cols-2 md:grid-cols-4 gap-4 items-center">
                   <div>
-                    <p className="text-[10px] text-zinc-400 font-bold uppercase tracking-wider">
+                    <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">
                       Order ID
                     </p>
-                    <p className="text-xs sm:text-sm font-bold text-primary font-mono mt-0.5 truncate">
+                    <p className="text-xs sm:text-sm font-bold text-foreground font-mono mt-0.5 truncate">
                       {order.orderId}
                     </p>
                   </div>
                   <div>
-                    <p className="text-[10px] text-zinc-400 font-bold uppercase tracking-wider">
+                    <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">
                       Placed On
                     </p>
-                    <p className="text-xs sm:text-sm font-semibold text-zinc-700 mt-0.5">
+                    <p className="text-xs sm:text-sm font-semibold text-foreground/80 mt-0.5">
                       {new Date(order.createdAt).toLocaleDateString("en-IN", {
                         year: "numeric",
                         month: "short",
@@ -147,10 +147,10 @@ const Orders = () => {
                     </p>
                   </div>
                   <div>
-                    <p className="text-[10px] text-zinc-400 font-bold uppercase tracking-wider">
+                    <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">
                       Total Amount
                     </p>
-                    <p className="text-sm sm:text-base font-bold text-primary mt-0.5">
+                    <p className="text-sm sm:text-base font-bold text-foreground mt-0.5">
                       ₹{order.totalAmount.toLocaleString("en-IN")}
                     </p>
                   </div>
@@ -158,7 +158,7 @@ const Orders = () => {
                 </div>
 
                 {/* Order Items */}
-                <div className="px-6 py-4 divide-y divide-zinc-100">
+                <div className="px-6 py-4 divide-y divide-border/60">
                   {order.items.map((item, index) => (
                     <div
                       key={index}
@@ -168,18 +168,18 @@ const Orders = () => {
                         <img
                           src={getImageAsset(item.image)}
                           alt={item.name}
-                          className="w-12 h-12 object-contain bg-[#F6F6F6] border border-zinc-150/40 rounded-xl"
+                          className="w-12 h-12 object-contain bg-secondary border border-border/40 rounded-xl"
                         />
                         <div className="space-y-0.5">
-                          <h4 className="font-bold text-sm text-primary line-clamp-1">
+                          <h4 className="font-bold text-sm text-foreground line-clamp-1">
                             {item.name}
                           </h4>
-                          <p className="text-xs text-zinc-400 font-semibold">
+                          <p className="text-xs text-muted-foreground font-semibold">
                             Qty: {item.qty} × ₹{item.price.toLocaleString("en-IN")}
                           </p>
                         </div>
                       </div>
-                      <span className="font-bold text-sm text-primary">
+                      <span className="font-bold text-sm text-foreground">
                         ₹{(item.price * item.qty).toLocaleString("en-IN")}
                       </span>
                     </div>
@@ -187,14 +187,14 @@ const Orders = () => {
                 </div>
 
                 {/* Delivery details footer summary */}
-                <div className="bg-[#FCFBF8]/40 px-6 py-3.5 border-t border-zinc-100 flex flex-col sm:flex-row justify-between text-xs text-zinc-500 gap-2 font-medium">
+                <div className="bg-secondary/20 px-6 py-3.5 border-t border-border flex flex-col sm:flex-row justify-between text-xs text-muted-foreground gap-2 font-medium">
                   <p>
-                    <span className="font-bold text-zinc-450 uppercase text-[10px] tracking-wider mr-1">Shipping:</span>{" "}
+                    <span className="font-bold text-muted-foreground/80 uppercase text-[10px] tracking-wider mr-1">Shipping:</span>{" "}
                     {order.shippingAddress.name}, {order.shippingAddress.address},{" "}
                     {order.shippingAddress.city} - {order.shippingAddress.pincode}
                   </p>
                   <p className="shrink-0">
-                    <span className="font-bold text-zinc-455 uppercase text-[10px] tracking-wider mr-1">Method:</span>{" "}
+                    <span className="font-bold text-muted-foreground/80 uppercase text-[10px] tracking-wider mr-1">Method:</span>{" "}
                     {order.paymentMethod}
                   </p>
                 </div>

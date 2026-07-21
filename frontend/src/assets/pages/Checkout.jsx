@@ -220,16 +220,16 @@ const Checkout = () => {
   // Protect Checkout Route - Conditional returns placed AFTER all hooks are defined
   if (!isAuthenticated) {
     return (
-      <div className="bg-white min-h-screen pt-20 sm:pt-24 pb-16 flex items-center justify-center">
-        <div className="bg-white border border-zinc-150 p-8 rounded-3xl max-w-md w-full text-center shadow-soft space-y-6">
+      <div className="bg-background min-h-screen pt-20 sm:pt-24 pb-16 flex items-center justify-center">
+        <div className="bg-card border border-border p-8 rounded-3xl max-w-md w-full text-center shadow-soft space-y-6">
           <div className="text-5xl">🔐</div>
-          <h2 className="font-display text-2xl font-bold text-primary">Login Required</h2>
-          <p className="text-zinc-500 text-sm leading-relaxed">
+          <h2 className="font-display text-2xl font-bold text-foreground">Login Required</h2>
+          <p className="text-muted-foreground text-sm leading-relaxed">
             You must be logged in to proceed to checkout and place an order.
           </p>
           <button
             onClick={() => navigate("/login")}
-            className="w-full bg-primary hover:bg-zinc-800 text-white font-semibold py-3 px-4 rounded-full text-sm transition"
+            className="w-full bg-primary hover:opacity-90 text-primary-foreground font-semibold py-3 px-4 rounded-full text-sm transition"
           >
             Login to Your Account
           </button>
@@ -240,11 +240,11 @@ const Checkout = () => {
 
   if (orderPlaced) {
     return (
-      <div className="bg-white min-h-screen pt-20 sm:pt-24 pb-16 flex items-center justify-center">
-        <div className="bg-white border border-zinc-150 p-8 rounded-3xl max-w-md w-full text-center shadow-soft space-y-4">
+      <div className="bg-background min-h-screen pt-20 sm:pt-24 pb-16 flex items-center justify-center">
+        <div className="bg-card border border-border p-8 rounded-3xl max-w-md w-full text-center shadow-soft space-y-4">
           <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-primary mx-auto"></div>
-          <h2 className="font-display text-xl font-bold text-primary">Processing Your Order...</h2>
-          <p className="text-zinc-500 text-sm leading-relaxed">Please wait while we confirm your payment and secure your order.</p>
+          <h2 className="font-display text-xl font-bold text-foreground">Processing Your Order...</h2>
+          <p className="text-muted-foreground text-sm leading-relaxed">Please wait while we confirm your payment and secure your order.</p>
         </div>
       </div>
     );
@@ -252,16 +252,16 @@ const Checkout = () => {
 
   if (cart.length === 0) {
     return (
-      <div className="bg-white min-h-screen pt-20 sm:pt-24 pb-16 flex items-center justify-center">
-        <div className="bg-white border border-zinc-150 p-8 rounded-3xl max-w-md w-full text-center shadow-soft space-y-6">
+      <div className="bg-background min-h-screen pt-20 sm:pt-24 pb-16 flex items-center justify-center">
+        <div className="bg-card border border-border p-8 rounded-3xl max-w-md w-full text-center shadow-soft space-y-6">
           <div className="text-5xl">🛒</div>
-          <h2 className="font-display text-2xl font-bold text-primary">Your Cart is Empty</h2>
-          <p className="text-zinc-500 text-sm leading-relaxed">
+          <h2 className="font-display text-2xl font-bold text-foreground">Your Cart is Empty</h2>
+          <p className="text-muted-foreground text-sm leading-relaxed">
             Add items to your cart before checking out.
           </p>
           <button
             onClick={() => navigate("/listing")}
-            className="w-full bg-primary hover:bg-zinc-800 text-white font-semibold py-3 px-4 rounded-full text-sm transition"
+            className="w-full bg-primary hover:opacity-90 text-primary-foreground font-semibold py-3 px-4 rounded-full text-sm transition"
           >
             Go to Products
           </button>
@@ -271,48 +271,48 @@ const Checkout = () => {
   }
 
   return (
-    <div className="bg-white min-h-screen pt-20 sm:pt-24 pb-16">
+    <div className="bg-background min-h-screen pt-20 sm:pt-24 pb-16">
       <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
         {/* Step Stepper Header */}
-        <div className="flex items-center justify-center gap-3 sm:gap-5 mb-10 max-w-lg mx-auto border border-zinc-100 p-3 rounded-full bg-zinc-50/50">
+        <div className="flex items-center justify-center gap-3 sm:gap-5 mb-10 max-w-lg mx-auto border border-border p-3 rounded-full bg-card shadow-soft">
           <div
             className={`flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm font-semibold ${
-              step >= 1 ? "text-primary font-bold" : "text-zinc-400"
+              step >= 1 ? "text-foreground font-bold" : "text-muted-foreground"
             }`}
           >
             <span
               className={`w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center border text-xs transition-all duration-205 ${
-                step > 1 ? "bg-primary border-primary text-white" : "border-primary text-primary"
+                step > 1 ? "bg-primary border-primary text-primary-foreground" : "border-primary text-foreground"
               }`}
             >
               {step > 1 ? <FaCheckCircle size={12} /> : "1"}
             </span>
             Shipping
           </div>
-          <FaChevronRight size={10} className="text-zinc-300" />
+          <FaChevronRight size={10} className="text-muted-foreground" />
           <div
             className={`flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm font-semibold ${
-              step >= 2 ? "text-primary font-bold" : "text-zinc-400"
+              step >= 2 ? "text-foreground font-bold" : "text-muted-foreground"
             }`}
           >
             <span
               className={`w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center border text-xs transition-all duration-205 ${
-                step > 2 ? "bg-primary border-primary text-white" : step === 2 ? "border-primary text-primary" : "border-zinc-200 text-zinc-400"
+                step > 2 ? "bg-primary border-primary text-primary-foreground" : step === 2 ? "border-primary text-foreground" : "border-border text-muted-foreground"
               }`}
             >
               {step > 2 ? <FaCheckCircle size={12} /> : "2"}
             </span>
             Payment
           </div>
-          <FaChevronRight size={10} className="text-zinc-300" />
+          <FaChevronRight size={10} className="text-muted-foreground" />
           <div
             className={`flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm font-semibold ${
-              step >= 3 ? "text-primary font-bold" : "text-zinc-400"
+              step >= 3 ? "text-foreground font-bold" : "text-muted-foreground"
             }`}
           >
             <span
-              className={`w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center border text-xs border-zinc-200 transition-all duration-205 ${
-                step === 3 ? "border-primary text-primary" : "text-zinc-400"
+              className={`w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center border text-xs border-border transition-all duration-205 ${
+                step === 3 ? "border-primary text-foreground" : "text-muted-foreground"
               }`}
             >
               3
@@ -323,20 +323,20 @@ const Checkout = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-10">
           {/* Main Checkout Area */}
-          <div className="bg-white border border-zinc-150 rounded-3xl p-6 sm:p-8 shadow-soft">
+          <div className="bg-card border border-border rounded-3xl p-6 sm:p-8 shadow-soft">
             {/* STEP 1: Shipping Address Form */}
             {step === 1 && (
               <div className="space-y-6">
-                <h2 className="font-display text-xl font-bold text-primary flex items-center gap-2 border-b border-zinc-100 pb-3">
-                  <FaMapMarkerAlt className="text-primary text-base" /> Shipping Details
+                <h2 className="font-display text-xl font-bold text-foreground flex items-center gap-2 border-b border-border pb-3">
+                  <FaMapMarkerAlt className="text-foreground text-base" /> Shipping Details
                 </h2>
                 <form onSubmit={addressForm.handleSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div className="sm:col-span-2">
-                    <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400">Full Name</label>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">Full Name</label>
                     <input
                       type="text"
                       name="name"
-                      className="mt-1.5 w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-primary bg-zinc-50/10 transition-colors"
+                      className="mt-1.5 w-full border border-border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-foreground/30 bg-background transition-colors"
                       placeholder="e.g. John Doe"
                       value={addressForm.values.name}
                       onChange={addressForm.handleChange}
@@ -499,29 +499,29 @@ const Checkout = () => {
                         name="payment"
                         checked={paymentMethod === "COD"}
                         onChange={() => setPaymentMethod("COD")}
-                        className="text-primary accent-primary"
+                        className="text-foreground accent-primary"
                       />
-                      <span className="font-semibold text-xs sm:text-sm text-primary">Cash on Delivery (COD)</span>
+                      <span className="font-semibold text-xs sm:text-sm text-foreground">Cash on Delivery (COD)</span>
                     </span>
-                    <span className="text-zinc-400 text-[10px] uppercase font-bold tracking-wider">Cash at Door</span>
+                    <span className="text-muted-foreground text-[10px] uppercase font-bold tracking-wider">Cash at Door</span>
                   </label>
                 </div>
 
                 {/* Sub Forms for payment details */}
                 {paymentMethod === "Card" && (
-                  <div className="bg-zinc-50 border border-zinc-150 rounded-2xl p-4.5 text-xs sm:text-sm text-zinc-600">
+                  <div className="bg-secondary border border-border rounded-2xl p-4.5 text-xs sm:text-sm text-muted-foreground">
                     💳 You will enter your card details securely via Razorpay's payment gateway in the next step.
                   </div>
                 )}
 
                 {paymentMethod === "UPI" && (
-                  <div className="bg-zinc-50 border border-zinc-150 rounded-2xl p-4.5 text-xs sm:text-sm text-zinc-600">
+                  <div className="bg-secondary border border-border rounded-2xl p-4.5 text-xs sm:text-sm text-muted-foreground">
                     📱 You will enter your UPI ID securely via Razorpay's payment gateway in the next step.
                   </div>
                 )}
 
                 {paymentMethod === "COD" && (
-                  <div className="bg-zinc-50 border border-zinc-150 rounded-2xl p-4.5 text-xs sm:text-sm text-zinc-600">
+                  <div className="bg-secondary border border-border rounded-2xl p-4.5 text-xs sm:text-sm text-muted-foreground">
                     🤝 No payment details required. Simply place your order and pay when it arrives at your doorstep.
                   </div>
                 )}
@@ -529,13 +529,13 @@ const Checkout = () => {
                 <div className="flex gap-3.5 pt-2">
                   <button
                     onClick={() => setStep(1)}
-                    className="w-1/2 border border-zinc-200 text-zinc-700 font-semibold py-3 px-4 rounded-full hover:border-primary transition text-xs sm:text-sm shadow-sm bg-white"
+                    className="w-1/2 border border-border text-foreground font-semibold py-3 px-4 rounded-full hover:border-foreground transition text-xs sm:text-sm shadow-sm bg-card"
                   >
                     Back to Address
                   </button>
                   <button
                     onClick={() => setStep(3)}
-                    className="w-1/2 bg-primary hover:bg-zinc-800 text-white font-semibold py-3 px-4 rounded-full transition shadow-sm text-xs sm:text-sm"
+                    className="w-1/2 bg-primary hover:opacity-90 text-primary-foreground font-semibold py-3 px-4 rounded-full transition shadow-sm text-xs sm:text-sm"
                   >
                     Review Order
                   </button>
@@ -546,41 +546,41 @@ const Checkout = () => {
             {/* STEP 3: Review Order & Place */}
             {step === 3 && (
               <div className="space-y-6">
-                <h2 className="font-display text-xl font-bold text-primary flex items-center gap-2 border-b border-zinc-100 pb-3">
-                  <FaClipboardCheck className="text-primary text-base" /> Review and Confirm
+                <h2 className="font-display text-xl font-bold text-foreground flex items-center gap-2 border-b border-border pb-3">
+                  <FaClipboardCheck className="text-foreground text-base" /> Review and Confirm
                 </h2>
 
                 <div className="space-y-4 text-xs sm:text-sm">
                   {/* Address Summary */}
-                  <div className="border border-zinc-200 rounded-2xl p-5 bg-white">
-                    <h3 className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-2.5">
+                  <div className="border border-border rounded-2xl p-5 bg-card">
+                    <h3 className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-2.5">
                       Deliver To:
                     </h3>
-                    <p className="font-bold text-primary text-sm">{addressForm.values.name}</p>
-                    <p className="text-zinc-500 mt-1">{addressForm.values.address}</p>
-                    <p className="text-zinc-500">
+                    <p className="font-bold text-foreground text-sm">{addressForm.values.name}</p>
+                    <p className="text-muted-foreground mt-1">{addressForm.values.address}</p>
+                    <p className="text-muted-foreground">
                       {addressForm.values.city}, {addressForm.values.state} - {addressForm.values.pincode}
                     </p>
-                    <p className="text-zinc-400 mt-3 font-semibold text-xs">📞 {addressForm.values.phone}</p>
+                    <p className="text-muted-foreground mt-3 font-semibold text-xs">📞 {addressForm.values.phone}</p>
                   </div>
 
                   {/* Payment Summary */}
-                  <div className="border border-zinc-200 rounded-2xl p-5 bg-white">
-                    <h3 className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-2.5">
+                  <div className="border border-border rounded-2xl p-5 bg-card">
+                    <h3 className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-2.5">
                       Payment Method:
                     </h3>
-                    <p className="font-bold text-primary text-sm">{paymentMethod}</p>
+                    <p className="font-bold text-foreground text-sm">{paymentMethod}</p>
                     {paymentMethod === "Card" && (
-                      <p className="text-zinc-500 mt-1 text-xs">💳 Pay via Razorpay (Credit/Debit Card)</p>
+                      <p className="text-muted-foreground mt-1 text-xs">💳 Pay via Razorpay (Credit/Debit Card)</p>
                     )}
-                    {paymentMethod === "UPI" && <p className="text-zinc-500 mt-1 text-xs">📱 Pay via Razorpay (UPI)</p>}
+                    {paymentMethod === "UPI" && <p className="text-muted-foreground mt-1 text-xs">📱 Pay via Razorpay (UPI)</p>}
                   </div>
                 </div>
 
                 <div className="flex gap-3.5 pt-2">
                   <button
                     onClick={() => setStep(2)}
-                    className="w-1/2 border border-zinc-200 text-zinc-700 font-semibold py-3 px-4 rounded-full hover:border-primary transition text-xs sm:text-sm shadow-sm bg-white"
+                    className="w-1/2 border border-border text-foreground font-semibold py-3 px-4 rounded-full hover:border-foreground transition text-xs sm:text-sm shadow-sm bg-card"
                   >
                     Back to Payment
                   </button>
@@ -589,8 +589,8 @@ const Checkout = () => {
                     disabled={isProcessing}
                     className={`w-1/2 font-bold py-3 px-4 rounded-full transition text-xs sm:text-sm shadow-sm ${
                       isProcessing
-                        ? "bg-zinc-400 cursor-not-allowed text-white"
-                        : "bg-primary hover:bg-zinc-800 text-white"
+                        ? "bg-secondary cursor-not-allowed text-muted-foreground"
+                        : "bg-primary hover:opacity-90 text-primary-foreground"
                     }`}
                   >
                     {isProcessing ? "Processing..." : `Place Order (₹${total.toLocaleString("en-IN")})`}
@@ -601,44 +601,44 @@ const Checkout = () => {
           </div>
 
           {/* Right Column: Order Summary Preview */}
-          <div className="border border-zinc-100 rounded-3xl p-6 bg-white h-fit shadow-soft space-y-6">
-            <h3 className="font-display text-sm font-bold text-primary border-b border-zinc-100 pb-3">Items Summary</h3>
+          <div className="border border-border rounded-3xl p-6 bg-card h-fit shadow-soft space-y-6">
+            <h3 className="font-display text-sm font-bold text-foreground border-b border-border pb-3">Items Summary</h3>
             <div className="max-h-60 overflow-y-auto space-y-3.5 pr-2 scrollbar-thin">
               {cart.map((item) => {
                 const itemKey = item._id || item.id;
                 return (
-                  <div key={itemKey} className="flex gap-3.5 items-center justify-between text-xs sm:text-sm pb-2.5 border-b border-zinc-100/50 last:border-0 last:pb-0">
+                  <div key={itemKey} className="flex gap-3.5 items-center justify-between text-xs sm:text-sm pb-2.5 border-b border-border/50 last:border-0 last:pb-0">
                     <div className="flex gap-3 items-center">
                       <img
                         src={getImageAsset(item.image)}
                         alt={item.name}
-                        className="w-12 h-12 object-contain bg-[#F6F6F6] border border-zinc-150/40 rounded-xl"
+                        className="w-12 h-12 object-contain bg-secondary border border-border/40 rounded-xl"
                       />
                       <div className="space-y-0.5">
-                        <h4 className="font-bold text-primary line-clamp-1">{item.name}</h4>
-                        <p className="text-zinc-400 text-xs font-semibold">Qty: {item.qty}</p>
+                        <h4 className="font-bold text-foreground line-clamp-1">{item.name}</h4>
+                        <p className="text-muted-foreground text-xs font-semibold">Qty: {item.qty}</p>
                       </div>
                     </div>
-                    <span className="font-bold text-primary">₹{(item.price * item.qty).toLocaleString("en-IN")}</span>
+                    <span className="font-bold text-foreground">₹{(item.price * item.qty).toLocaleString("en-IN")}</span>
                   </div>
                 );
               })}
             </div>
 
-            <div className="border-t border-zinc-100 pt-4 space-y-3 text-xs sm:text-sm">
-              <div className="flex justify-between text-zinc-500 font-medium">
+            <div className="border-t border-border pt-4 space-y-3 text-xs sm:text-sm">
+              <div className="flex justify-between text-muted-foreground font-medium">
                 <span>Subtotal</span>
-                <span className="font-semibold text-primary">₹{subtotal.toLocaleString("en-IN")}</span>
+                <span className="font-semibold text-foreground">₹{subtotal.toLocaleString("en-IN")}</span>
               </div>
-              <div className="flex justify-between text-zinc-500 font-medium">
+              <div className="flex justify-between text-muted-foreground font-medium">
                 <span>Shipping</span>
                 <span className="text-green-600 font-bold text-xs uppercase tracking-wider">Free</span>
               </div>
-              <div className="flex justify-between text-zinc-500 font-medium">
+              <div className="flex justify-between text-muted-foreground font-medium">
                 <span>Taxes (18% GST)</span>
-                <span className="font-semibold text-primary">₹{tax.toLocaleString("en-IN")}</span>
+                <span className="font-semibold text-foreground">₹{tax.toLocaleString("en-IN")}</span>
               </div>
-              <div className="border-t border-zinc-100 pt-3 flex justify-between font-bold text-sm sm:text-base text-primary">
+              <div className="border-t border-border pt-3 flex justify-between font-bold text-sm sm:text-base text-foreground">
                 <span>Total Amount</span>
                 <span>₹{total.toLocaleString("en-IN")}</span>
               </div>

@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import { FaCartShopping } from "react-icons/fa6";
-import { FaUserAlt, FaBars, FaTimes } from "react-icons/fa";
-import { CiSearch } from "react-icons/ci";
+import { FaBars, FaTimes } from "react-icons/fa";
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
@@ -23,119 +21,143 @@ const Header = () => {
 
   const closeMobileMenu = () => setMobileMenuOpen(false);
 
-  // Helper to determine if a route is active
-  const isActive = (path) => location.pathname + location.search === path;
+  const navLinks = [
+    { label: "Shop All", to: "/listing" },
+    { label: "Shirts", to: "/listing?category=shirt" },
+    { label: "Jeans & Trousers", to: "/listing?category=jeans,trousers" },
+    { label: "Shoes", to: "/listing?category=shoes" },
+    { label: "Accessories", to: "/listing?category=accessories" },
+  ];
 
   return (
     <>
-      <div className="fixed top-0 left-0 w-full bg-white/90 backdrop-blur-md border-b border-zinc-100 z-50 transition-all duration-300">
-        <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
-          <div className="flex items-center justify-between h-16 sm:h-20">
-            {/* Logo */}
-            <Link to="/" className="font-display text-2xl sm:text-3xl text-primary font-bold tracking-tight hover:opacity-90 transition-opacity">
-              BrandShut
-            </Link>
-            
-            {/* Desktop Nav */}
-            <nav className="hidden lg:flex items-center gap-8 text-sm font-medium text-zinc-600">
-              <Link 
-                to="/listing?category=shirt" 
-                className={`hover:text-primary transition-colors relative py-1 ${isActive("/listing?category=shirt") ? "text-primary font-semibold" : ""}`}
+      <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-md">
+        <div className="container mx-auto flex h-16 items-center justify-between gap-4 px-4 md:px-6 max-w-7xl">
+          {/* Logo */}
+          <Link to="/" className="font-display text-xl font-extrabold tracking-tight text-foreground md:text-2xl">
+            Brand<span className="text-foreground">Shut</span>
+          </Link>
+
+          {/* Desktop Nav */}
+          <nav className="hidden md:flex items-center gap-1">
+            {navLinks.map((link) => (
+              <Link
+                key={link.to}
+                to={link.to}
+                className="group relative rounded-full px-3 py-2 text-sm font-medium text-foreground/80 transition hover:text-foreground"
               >
-                Shirts
-                {isActive("/listing?category=shirt") && <span className="absolute bottom-0 left-0 w-full h-[2px] bg-primary rounded-full" />}
+                <span>{link.label}</span>
               </Link>
-              <Link 
-                to="/listing?category=jeans,trousers" 
-                className={`hover:text-primary transition-colors relative py-1 ${isActive("/listing?category=jeans,trousers") ? "text-primary font-semibold" : ""}`}
-              >
-                Jeans & Trousers
-                {isActive("/listing?category=jeans,trousers") && <span className="absolute bottom-0 left-0 w-full h-[2px] bg-primary rounded-full" />}
-              </Link>
-              <Link 
-                to="/listing?category=shoes" 
-                className={`hover:text-primary transition-colors relative py-1 ${isActive("/listing?category=shoes") ? "text-primary font-semibold" : ""}`}
-              >
-                Shoes
-                {isActive("/listing?category=shoes") && <span className="absolute bottom-0 left-0 w-full h-[2px] bg-primary rounded-full" />}
-              </Link>
-              <Link 
-                to="/listing?category=accessories" 
-                className={`hover:text-primary transition-colors relative py-1 ${isActive("/listing?category=accessories") ? "text-primary font-semibold" : ""}`}
-              >
-                Accessories
-                {isActive("/listing?category=accessories") && <span className="absolute bottom-0 left-0 w-full h-[2px] bg-primary rounded-full" />}
-              </Link>
-            </nav>
-            
-            {/* Desktop Search */}
-            <div className="hidden md:flex border border-zinc-200 hover:border-zinc-300 focus-within:border-primary items-center rounded-full bg-zinc-50/50 px-4 py-1.5 transition-all duration-200">
-              <CiSearch className="text-zinc-400 text-lg" />
+            ))}
+          </nav>
+
+          {/* Search & Actions */}
+          <div className="flex items-center gap-2 md:gap-4 flex-1 md:flex-initial max-w-sm">
+            {/* Search */}
+            <label className="group hidden sm:flex h-11 w-full items-center gap-2 rounded-full border border-border bg-card/70 px-4 text-sm text-muted-foreground transition-all focus-within:border-foreground/30 focus-within:bg-card focus-within:shadow-soft">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 shrink-0 opacity-50">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
               <input
-                type="text"
-                placeholder='Search Collection'
+                aria-label="Search products"
+                className="w-full bg-transparent text-foreground outline-none placeholder:text-muted-foreground"
+                placeholder='Search for "shirts"'
                 onKeyDown={handleSearchKeyPress}
-                className="outline-none px-2 py-0.5 text-xs sm:text-sm font-normal text-zinc-800 placeholder-zinc-400 bg-transparent w-40 lg:w-56 focus:w-48 lg:focus:w-64 transition-all duration-300"
               />
-            </div>
-            
-            {/* Right Icons */}
-            <div className="flex items-center gap-3 sm:gap-5">
-              <Link to="/cart" className="relative p-2.5 rounded-full hover:bg-zinc-50 text-zinc-700 hover:text-primary transition-all duration-200">
-                <FaCartShopping className="text-lg sm:text-xl" />
-                {cartCount > 0 && (
-                  <span className="absolute top-1 right-1 bg-primary text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center animate-pulse">
-                    {cartCount}
-                  </span>
-                )}
+            </label>
+
+            {/* Wishlist */}
+            <Link to="/listing" className="hidden sm:grid h-11 w-11 place-items-center rounded-full text-foreground transition hover:bg-secondary">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path>
+              </svg>
+            </Link>
+
+            {/* Account */}
+            {user ? (
+              <Link to="/dashboard" className="hidden sm:grid h-11 w-11 place-items-center rounded-full text-foreground transition hover:bg-secondary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
               </Link>
+            ) : (
+              <Link to="/login" className="hidden sm:grid h-11 w-11 place-items-center rounded-full text-foreground transition hover:bg-secondary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+              </Link>
+            )}
+
+            {/* Cart */}
+            <Link to="/cart" aria-label="Cart" className="relative grid h-11 w-11 place-items-center rounded-full text-foreground transition hover:bg-secondary">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <path d="M16 10a4 4 0 0 1-8 0"></path>
+              </svg>
+              {cartCount > 0 && (
+                <span className="absolute top-1 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-medium text-primary-foreground">
+                  {cartCount}
+                </span>
+              )}
+            </Link>
+
+            {/* Mobile Menu Toggle */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden grid h-11 w-11 place-items-center rounded-full text-foreground transition hover:bg-secondary"
+              aria-label="Toggle menu"
+            >
+              {mobileMenuOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Menu Dropdown */}
+        {mobileMenuOpen && (
+          <div className="md:hidden border-t border-border py-4 px-4 space-y-4">
+            {/* Mobile Search */}
+            <label className="sm:hidden flex h-11 w-full items-center gap-2 rounded-full border border-border bg-card/70 px-4 text-sm text-muted-foreground">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 shrink-0 opacity-50">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input
+                aria-label="Search products"
+                className="w-full bg-transparent text-foreground outline-none placeholder:text-muted-foreground"
+                placeholder='Search for "shirts"'
+                onKeyDown={handleSearchKeyPress}
+              />
+            </label>
+
+            {/* Mobile Nav Links */}
+            <nav className="flex flex-col gap-1">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.to}
+                  to={link.to}
+                  onClick={closeMobileMenu}
+                  className="rounded-xl px-4 py-2.5 text-sm font-medium text-foreground/80 transition hover:bg-secondary hover:text-foreground"
+                >
+                  {link.label}
+                </Link>
+              ))}
               {user ? (
-                <Link to="/dashboard" className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-zinc-200 hover:border-primary text-zinc-700 hover:text-primary transition-all duration-200">
-                  <FaUserAlt className="text-xs sm:text-sm" />
-                  <span className="max-w-[100px] truncate hidden sm:inline text-xs font-semibold">{user.name}</span>
+                <Link to="/dashboard" onClick={closeMobileMenu} className="rounded-xl px-4 py-2.5 text-sm font-medium text-foreground/80 transition hover:bg-secondary hover:text-foreground">
+                  My Account
                 </Link>
               ) : (
-                <Link to="/login" className="p-2.5 rounded-full hover:bg-zinc-50 text-zinc-700 hover:text-primary transition-all duration-200">
-                  <FaUserAlt className="text-lg" />
+                <Link to="/login" onClick={closeMobileMenu} className="rounded-xl px-4 py-2.5 text-sm font-medium text-foreground/80 transition hover:bg-secondary hover:text-foreground">
+                  Sign In
                 </Link>
               )}
-
-              {/* Mobile Menu Toggle */}
-              <button
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="lg:hidden p-2.5 rounded-full hover:bg-zinc-50 text-zinc-700 hover:text-primary transition-all duration-200"
-                aria-label="Toggle menu"
-              >
-                {mobileMenuOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
-              </button>
-            </div>
+            </nav>
           </div>
-
-          {/* Mobile Menu Dropdown */}
-          {mobileMenuOpen && (
-            <div className="lg:hidden border-t border-zinc-100 py-4 px-2 space-y-4 animate-fadeIn">
-              {/* Mobile Search */}
-              <div className="md:hidden flex border border-zinc-200 items-center rounded-full bg-zinc-50 px-4 py-2">
-                <CiSearch className="text-zinc-400 text-lg" />
-                <input
-                  type="text"
-                  placeholder='Search Collection'
-                  onKeyDown={handleSearchKeyPress}
-                  className="outline-none px-2 py-0.5 text-sm font-normal text-zinc-800 bg-transparent w-full"
-                />
-              </div>
-
-              {/* Mobile Nav Links */}
-              <nav className="flex flex-col gap-1 text-sm font-medium text-zinc-600">
-                <Link to="/listing?category=shirt" onClick={closeMobileMenu} className="py-2.5 px-4 rounded-xl hover:bg-zinc-50 hover:text-primary transition-colors">Shirts</Link>
-                <Link to="/listing?category=jeans,trousers" onClick={closeMobileMenu} className="py-2.5 px-4 rounded-xl hover:bg-zinc-50 hover:text-primary transition-colors">Jeans & Trousers</Link>
-                <Link to="/listing?category=shoes" onClick={closeMobileMenu} className="py-2.5 px-4 rounded-xl hover:bg-zinc-50 hover:text-primary transition-colors">Shoes</Link>
-                <Link to="/listing?category=accessories" onClick={closeMobileMenu} className="py-2.5 px-4 rounded-xl hover:bg-zinc-50 hover:text-primary transition-colors">Accessories</Link>
-              </nav>
-            </div>
-          )}
-        </div>
-      </div>
+        )}
+      </header>
     </>
   );
 };
