@@ -5,7 +5,7 @@ import { useCart } from '../context/CartContext';
 import { getImageAsset } from '../utils/imageHelper';
 import { toast } from 'react-toastify';
 
-import shirt2 from '../assets/images/shirt2.png';
+import heroimg from '../assets/images/heroimg.avif';
 import tshirt from '../assets/images/tshirt.png';
 import shoes from '../assets/images/shoes.png';
 import jackets from '../assets/images/jacket.png';
@@ -124,7 +124,7 @@ const Homepage = () => {
             {/* Right — Hero Image Card */}
             <div className="relative aspect-[4/5] w-full max-w-md mx-auto lg:ml-auto rounded-3xl overflow-hidden shadow-soft group">
               <img
-                src={shirt2}
+                src={heroimg}
                 alt="Premium Collection"
                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
