@@ -17,3 +17,13 @@ build/
 .idea/
 .DS_Store
 Thumbs.db
+
+# Deployment & utility scripts (contain credentials)
+deploy-render.js
+restart-render.js
+test-api.js
+vercel_bundle.js
+backend/test-db.js
+
+# Personal files
+*.pdf
