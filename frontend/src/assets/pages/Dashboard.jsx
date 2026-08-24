@@ -77,14 +77,14 @@ const Dashboard = () => {
       <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
         
         {/* Header */}
-        <div className="border-b border-border pb-5 mt-8 mb-10">
-          <h1 className="font-display text-3xl font-extrabold tracking-tight text-foreground">My Account</h1>
+        <div className="border-b border-border pb-5 mb-8 sm:mb-10">
+          <h1 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground">My Account</h1>
           <p className="text-muted-foreground text-xs sm:text-sm font-medium mt-1">
             Manage your personal profile and track your orders
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-[280px_1fr] gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-[280px_1fr] gap-8 lg:gap-10">
           
           {/* Left Column: Sidebar Profile Details */}
           <div className="space-y-6">
@@ -112,19 +112,21 @@ const Dashboard = () => {
 
               <div className="mt-6 pt-5 border-t border-border flex flex-col gap-2.5">
                 <button
+                  type="button"
                   onClick={() => setIsEditing(!isEditing)}
-                  className="w-full bg-card border border-border hover:border-foreground text-foreground font-semibold py-2 px-4 rounded-full flex items-center justify-center gap-2 transition text-xs sm:text-sm shadow-sm"
+                  className="w-full bg-card border border-border hover:border-foreground text-foreground font-semibold py-2 px-4 rounded-full flex items-center justify-center gap-2 transition text-xs sm:text-sm shadow-sm cursor-pointer"
                 >
                   <FaEdit size={12} className="text-muted-foreground" /> Edit Profile
                 </button>
                 <button
+                  type="button"
                   onClick={() => {
                     logout();
                     navigate("/login");
                   }}
-                  className="w-full border border-transparent hover:border-red-200 text-red-650 hover:bg-red-50/50 font-semibold py-2 px-4 rounded-full flex items-center justify-center gap-2 transition text-xs sm:text-sm"
+                  className="w-full border border-transparent hover:border-rose-200 text-rose-600 hover:bg-rose-50/50 font-semibold py-2 px-4 rounded-full flex items-center justify-center gap-2 transition text-xs sm:text-sm cursor-pointer"
                 >
-                  <FaSignOutAlt size={12} className="text-red-400" /> Logout
+                  <FaSignOutAlt size={12} className="text-rose-400" /> Logout
                 </button>
               </div>
             </div>
@@ -135,7 +137,7 @@ const Dashboard = () => {
             
             {/* Edit Profile Form Panel */}
             {isEditing && (
-              <div className="border border-border rounded-3xl p-6 bg-card shadow-soft">
+              <div className="border border-border rounded-3xl p-6 sm:p-7 bg-card shadow-soft">
                 <h3 className="font-display text-base sm:text-lg font-bold text-foreground border-b border-border pb-3 mb-5">Update Profile Details</h3>
                 <form onSubmit={profileForm.handleSubmit} className="space-y-4">
                   <div className="space-y-1.5">
@@ -149,7 +151,7 @@ const Dashboard = () => {
                       onBlur={profileForm.handleBlur}
                     />
                     {profileForm.touched.name && profileForm.errors.name && (
-                      <p className="text-red-550 text-xs mt-1 font-medium">{profileForm.errors.name}</p>
+                      <p className="text-rose-500 text-xs mt-1 font-medium">{profileForm.errors.name}</p>
                     )}
                   </div>
 
@@ -166,7 +168,7 @@ const Dashboard = () => {
                       onBlur={profileForm.handleBlur}
                     />
                     {profileForm.touched.phone && profileForm.errors.phone && (
-                      <p className="text-red-550 text-xs mt-1 font-medium">{profileForm.errors.phone}</p>
+                      <p className="text-rose-500 text-xs mt-1 font-medium">{profileForm.errors.phone}</p>
                     )}
                   </div>
 
@@ -182,21 +184,21 @@ const Dashboard = () => {
                       onBlur={profileForm.handleBlur}
                     />
                     {profileForm.touched.address && profileForm.errors.address && (
-                      <p className="text-red-555 text-xs mt-1 font-medium">{profileForm.errors.address}</p>
+                      <p className="text-rose-500 text-xs mt-1 font-medium">{profileForm.errors.address}</p>
                     )}
                   </div>
 
                   <div className="flex gap-3 pt-2">
                     <button
                       type="submit"
-                      className="bg-primary hover:opacity-90 text-primary-foreground font-semibold py-2.5 px-6 rounded-full text-xs sm:text-sm transition shadow-sm"
+                      className="bg-primary hover:opacity-90 text-primary-foreground font-semibold py-2.5 px-6 rounded-full text-xs sm:text-sm transition shadow-sm cursor-pointer"
                     >
                       Save Changes
                     </button>
                     <button
                       type="button"
                       onClick={() => setIsEditing(false)}
-                      className="border border-border text-foreground/80 hover:border-foreground font-semibold py-2.5 px-6 rounded-full text-xs sm:text-sm transition"
+                      className="border border-border text-foreground/80 hover:border-foreground font-semibold py-2.5 px-6 rounded-full text-xs sm:text-sm transition cursor-pointer"
                     >
                       Cancel
                     </button>
@@ -206,7 +208,7 @@ const Dashboard = () => {
             )}
 
             {/* Recent Orders Panel */}
-            <div className="border border-border rounded-3xl p-6 bg-card shadow-soft">
+            <div className="border border-border rounded-3xl p-6 sm:p-7 bg-card shadow-soft">
               <div className="flex justify-between items-center border-b border-border pb-3 mb-5">
                 <h3 className="font-display text-base sm:text-lg font-bold text-foreground flex items-center gap-2">
                   <FaBox className="text-foreground text-sm" /> Recent Orders
@@ -217,25 +219,25 @@ const Dashboard = () => {
               </div>
 
               {loadingOrders ? (
-                <div className="flex justify-center py-6">
+                <div className="flex justify-center py-8">
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
                 </div>
               ) : recentOrders.length === 0 ? (
-                <div className="text-center py-8 space-y-4">
+                <div className="text-center py-10 px-4 space-y-4 bg-secondary/30 rounded-2xl border border-dashed border-border">
                   <p className="text-muted-foreground text-xs sm:text-sm">You haven't placed any orders yet.</p>
                   <Link
                     to="/listing"
-                    className="inline-flex items-center gap-2 bg-primary hover:opacity-90 text-primary-foreground font-semibold py-2.5 px-6 rounded-full transition shadow-sm text-xs"
+                    className="inline-flex items-center gap-2 bg-primary hover:opacity-90 text-primary-foreground font-semibold py-2.5 px-6 rounded-full transition shadow-sm text-xs cursor-pointer"
                   >
                     <FaShoppingBag size={10} className="text-primary-foreground/60" /> Explore Products
                   </Link>
                 </div>
               ) : (
-                <div className="space-y-4">
+                <div className="space-y-3.5">
                   {recentOrders.map((order) => (
                     <div
                       key={order._id}
-                      className="border border-border rounded-2xl p-4.5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:border-foreground/30 transition"
+                      className="border border-border rounded-2xl p-4 sm:p-4.5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:border-foreground/30 transition bg-background"
                     >
                       <div className="space-y-1">
                         <p className="text-[10px] text-muted-foreground font-bold uppercase font-mono">
@@ -255,10 +257,10 @@ const Dashboard = () => {
                         <span
                           className={`text-[9px] font-bold px-3 py-1 rounded-full border uppercase tracking-wider ${
                             order.status === "Processing"
-                              ? "bg-yellow-50 text-yellow-750 border-yellow-150"
+                              ? "bg-amber-50 text-amber-700 border-amber-200"
                               : order.status === "Shipped"
-                              ? "bg-purple-50 text-purple-750 border-purple-150"
-                              : "bg-green-55/10 text-green-750 border-green-150"
+                              ? "bg-indigo-50 text-indigo-700 border-indigo-200"
+                              : "bg-emerald-50 text-emerald-700 border-emerald-200"
                           }`}
                         >
                           {order.status}

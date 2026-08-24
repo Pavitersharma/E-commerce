@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 import { getImageAsset } from "../../utils/imageHelper";
-import { FaTrash, FaMinus, FaPlus, FaArrowRight, FaTruck } from "react-icons/fa";
+import { FaTrash, FaMinus, FaPlus, FaArrowRight, FaTruck, FaShoppingBag } from "react-icons/fa";
 
 const Cart = () => {
   const { cart, updateQty, removeFromCart, getSubtotal } = useCart();
@@ -27,45 +27,51 @@ const Cart = () => {
       <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
         
         {/* Header */}
-        <div className="border-b border-border pb-5 mt-8 mb-10">
-          <h1 className="font-display text-3xl font-extrabold tracking-tight text-foreground">Shopping Cart</h1>
+        <div className="border-b border-border pb-5 mb-8 sm:mb-10">
+          <h1 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground">Shopping Cart</h1>
           <p className="text-muted-foreground text-xs sm:text-sm font-medium mt-1">
             Review your selections and proceed to checkout
           </p>
         </div>
 
         {cart.length === 0 ? (
-          <div className="bg-secondary border border-border rounded-3xl p-10 sm:p-16 text-center max-w-xl mx-auto space-y-6 shadow-soft">
-            <div className="text-5xl">🛒</div>
-            <h2 className="font-display text-2xl font-bold text-foreground">Your cart is empty</h2>
-            <p className="text-muted-foreground text-sm max-w-xs mx-auto leading-relaxed">
-              Looks like you haven't added anything to your cart yet. Discover our premium summer collection.
-            </p>
-            <Link
-              to="/listing"
-              className="inline-flex items-center gap-2 bg-primary hover:opacity-90 text-primary-foreground font-semibold text-xs sm:text-sm px-7 py-3 rounded-full transition shadow-sm"
-            >
-              Start Shopping <FaArrowRight size={10} className="text-zinc-300" />
-            </Link>
+          <div className="bg-card border border-border rounded-3xl p-8 sm:p-14 text-center max-w-xl mx-auto space-y-6 shadow-soft my-8">
+            <div className="w-16 h-16 bg-secondary text-foreground rounded-full flex items-center justify-center text-2xl mx-auto border border-border/60">
+              <FaShoppingBag />
+            </div>
+            <div className="space-y-2">
+              <h2 className="font-display text-xl sm:text-2xl font-bold text-foreground">Your Cart is Empty</h2>
+              <p className="text-muted-foreground text-xs sm:text-sm max-w-sm mx-auto leading-relaxed">
+                Looks like you haven't added anything to your cart yet. Explore our curated collections to find your style.
+              </p>
+            </div>
+            <div>
+              <Link
+                to="/listing"
+                className="inline-flex items-center gap-2 bg-primary hover:opacity-90 text-primary-foreground font-semibold text-xs sm:text-sm px-8 py-3.5 rounded-full transition shadow-sm cursor-pointer"
+              >
+                Start Shopping <FaArrowRight size={10} className="text-primary-foreground/70" />
+              </Link>
+            </div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-10">
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-8 lg:gap-10">
             {/* Left Column: Cart items */}
             <div className="space-y-6">
               
               {/* Shipping progress indicator */}
-              <div className="border border-border p-5 rounded-3xl bg-background space-y-3">
+              <div className="border border-border p-5 rounded-3xl bg-card space-y-3 shadow-xs">
                 <div className="flex items-center gap-2 text-xs sm:text-sm font-semibold text-foreground">
                   <FaTruck className="text-primary text-base" />
                   {remainingForFreeShipping > 0 ? (
-                    <span>Add <strong className="text-foreground">₹{remainingForFreeShipping}</strong> more for free express shipping!</span>
+                    <span>Add <strong className="text-foreground">₹{remainingForFreeShipping.toLocaleString("en-IN")}</strong> more for free express shipping!</span>
                   ) : (
-                    <span className="text-green-600 font-bold">🎉 You qualify for free express shipping!</span>
+                    <span className="text-emerald-600 font-bold">🎉 You qualify for free express shipping!</span>
                   )}
                 </div>
-                <div className="w-full bg-border/60 rounded-full h-1.5 overflow-hidden">
+                <div className="w-full bg-secondary rounded-full h-2 overflow-hidden border border-border/40">
                   <div 
-                    className="bg-primary h-full rounded-full transition-all duration-305" 
+                    className="bg-primary h-full rounded-full transition-all duration-300" 
                     style={{ width: `${progressPercent}%` }} 
                   />
                 </div>
@@ -78,35 +84,43 @@ const Cart = () => {
                   return (
                     <div
                       key={itemKey}
-                      className="border border-border rounded-3xl p-5 flex flex-col sm:flex-row items-center justify-between gap-5 bg-card transition-all hover:shadow-soft"
+                      className="border border-border rounded-3xl p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-5 bg-card transition-all hover:shadow-soft"
                     >
                       {/* Product details info link */}
                       <div className="flex items-center gap-4 w-full sm:w-auto">
-                        <img
-                          src={getImageAsset(item.image)}
-                          alt={item.name}
-                          className="w-20 h-20 sm:w-24 sm:h-24 object-contain rounded-2xl bg-secondary border border-border/40 flex-shrink-0"
-                        />
+                        <Link to={`/product/${itemKey}`} className="flex-shrink-0">
+                          <img
+                            src={getImageAsset(item.image)}
+                            alt={item.name}
+                            className="w-20 h-20 sm:w-24 sm:h-24 object-contain rounded-2xl bg-secondary border border-border/40 p-2"
+                          />
+                        </Link>
                         <div className="space-y-1">
-                          <h3 className="font-semibold text-foreground text-sm sm:text-base line-clamp-1">{item.name}</h3>
+                          <Link to={`/product/${itemKey}`} className="font-semibold text-foreground text-sm sm:text-base line-clamp-1 hover:underline">
+                            {item.name}
+                          </Link>
                           <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">{item.brand || item.category}</p>
                           <p className="text-foreground font-bold text-sm sm:text-base mt-1">₹{item.price.toLocaleString("en-IN")}</p>
                         </div>
                       </div>
 
                       {/* Controls (quantity adjustment & delete) */}
-                      <div className="flex items-center justify-between sm:justify-end gap-6 w-full sm:w-auto">
+                      <div className="flex items-center justify-between sm:justify-end gap-5 w-full sm:w-auto">
                         <div className="flex items-center border border-border rounded-full overflow-hidden h-9 bg-card">
                           <button
+                            type="button"
                             onClick={() => updateQty(itemKey, item.qty - 1)}
-                            className="px-3 hover:bg-secondary text-muted-foreground font-bold h-full transition"
+                            className="px-3 hover:bg-secondary text-muted-foreground hover:text-foreground font-bold h-full transition cursor-pointer"
+                            aria-label="Decrease quantity"
                           >
                             <FaMinus size={8} />
                           </button>
-                          <span className="px-3.5 font-bold text-xs sm:text-sm text-foreground">{item.qty}</span>
+                          <span className="px-3 font-bold text-xs sm:text-sm text-foreground">{item.qty}</span>
                           <button
+                            type="button"
                             onClick={() => updateQty(itemKey, item.qty + 1)}
-                            className="px-3 hover:bg-secondary text-muted-foreground font-bold h-full transition"
+                            className="px-3 hover:bg-secondary text-muted-foreground hover:text-foreground font-bold h-full transition cursor-pointer"
+                            aria-label="Increase quantity"
                           >
                             <FaPlus size={8} />
                           </button>
@@ -119,9 +133,11 @@ const Cart = () => {
 
                         {/* Remove button */}
                         <button
+                          type="button"
                           onClick={() => removeFromCart(itemKey)}
-                          className="p-2.5 text-zinc-450 hover:text-red-500 hover:bg-red-50 rounded-full transition-all duration-200"
+                          className="p-2.5 text-muted-foreground hover:text-rose-500 hover:bg-rose-50 rounded-full transition-all duration-200 cursor-pointer"
                           title="Remove item"
+                          aria-label="Remove item"
                         >
                           <FaTrash size={12} />
                         </button>
@@ -143,7 +159,7 @@ const Cart = () => {
                 </div>
                 <div className="flex justify-between text-muted-foreground font-medium">
                   <span>Shipping</span>
-                  <span className="text-green-650 font-semibold uppercase tracking-wider text-xs">Free</span>
+                  <span className="text-emerald-600 font-semibold uppercase tracking-wider text-xs">Free</span>
                 </div>
                 <div className="flex justify-between text-muted-foreground font-medium">
                   <span>Taxes (18% GST)</span>
@@ -156,13 +172,14 @@ const Cart = () => {
               </div>
 
               <button
+                type="button"
                 onClick={handleCheckout}
-                className="w-full bg-primary hover:opacity-90 text-primary-foreground font-semibold py-3 px-4 rounded-full flex items-center justify-center gap-2 shadow-sm hover:shadow transition duration-200 text-xs sm:text-sm"
+                className="w-full bg-primary hover:opacity-90 text-primary-foreground font-semibold py-3.5 px-4 rounded-full flex items-center justify-center gap-2 shadow-sm hover:shadow transition duration-200 text-xs sm:text-sm cursor-pointer"
               >
-                Proceed to Checkout <FaArrowRight size={10} className="text-zinc-300" />
+                Proceed to Checkout <FaArrowRight size={10} className="text-primary-foreground/70" />
               </button>
 
-              <div className="text-center">
+              <div className="text-center pt-1">
                 <Link to="/listing" className="text-xs font-semibold text-muted-foreground hover:text-foreground underline transition-colors">
                   Continue Shopping
                 </Link>

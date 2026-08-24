@@ -348,91 +348,91 @@ const Checkout = () => {
                   </div>
 
                   <div className="sm:col-span-2">
-                    <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400">Street Address</label>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">Street Address</label>
                     <input
                       type="text"
                       name="address"
-                      className="mt-1.5 w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-primary bg-zinc-50/10 transition-colors"
+                      className="mt-1.5 w-full border border-border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-foreground/30 bg-background transition-colors"
                       placeholder="e.g. Flat/House no, building, street, area"
                       value={addressForm.values.address}
                       onChange={addressForm.handleChange}
                       onBlur={addressForm.handleBlur}
                     />
                     {addressForm.touched.address && addressForm.errors.address && (
-                      <p className="text-red-500 text-xs mt-1 font-medium">{addressForm.errors.address}</p>
+                      <p className="text-rose-500 text-xs mt-1 font-medium">{addressForm.errors.address}</p>
                     )}
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400">City</label>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">City</label>
                     <input
                       type="text"
                       name="city"
-                      className="mt-1.5 w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-primary bg-zinc-50/10 transition-colors"
+                      className="mt-1.5 w-full border border-border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-foreground/30 bg-background transition-colors"
                       placeholder="e.g. New Delhi"
                       value={addressForm.values.city}
                       onChange={addressForm.handleChange}
                       onBlur={addressForm.handleBlur}
                     />
                     {addressForm.touched.city && addressForm.errors.city && (
-                      <p className="text-red-500 text-xs mt-1 font-medium">{addressForm.errors.city}</p>
+                      <p className="text-rose-500 text-xs mt-1 font-medium">{addressForm.errors.city}</p>
                     )}
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400">State</label>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">State</label>
                     <input
                       type="text"
                       name="state"
-                      className="mt-1.5 w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-primary bg-zinc-50/10 transition-colors"
+                      className="mt-1.5 w-full border border-border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-foreground/30 bg-background transition-colors"
                       placeholder="e.g. Delhi"
                       value={addressForm.values.state}
                       onChange={addressForm.handleChange}
                       onBlur={addressForm.handleBlur}
                     />
                     {addressForm.touched.state && addressForm.errors.state && (
-                      <p className="text-red-500 text-xs mt-1 font-medium">{addressForm.errors.state}</p>
+                      <p className="text-rose-500 text-xs mt-1 font-medium">{addressForm.errors.state}</p>
                     )}
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400">Pincode (6 digits)</label>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">Pincode (6 digits)</label>
                     <input
                       type="text"
                       name="pincode"
                       maxLength={6}
-                      className="mt-1.5 w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-primary bg-zinc-50/10 transition-colors"
+                      className="mt-1.5 w-full border border-border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-foreground/30 bg-background transition-colors"
                       placeholder="e.g. 110001"
                       value={addressForm.values.pincode}
                       onChange={addressForm.handleChange}
                       onBlur={addressForm.handleBlur}
                     />
                     {addressForm.touched.pincode && addressForm.errors.pincode && (
-                      <p className="text-red-500 text-xs mt-1 font-medium">{addressForm.errors.pincode}</p>
+                      <p className="text-rose-500 text-xs mt-1 font-medium">{addressForm.errors.pincode}</p>
                     )}
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400">Mobile Number</label>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">Mobile Number</label>
                     <input
                       type="text"
                       name="phone"
                       maxLength={10}
-                      className="mt-1.5 w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-primary bg-zinc-50/10 transition-colors"
+                      className="mt-1.5 w-full border border-border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-foreground/30 bg-background transition-colors"
                       placeholder="e.g. 9876543210"
                       value={addressForm.values.phone}
                       onChange={addressForm.handleChange}
                       onBlur={addressForm.handleBlur}
                     />
                     {addressForm.touched.phone && addressForm.errors.phone && (
-                      <p className="text-red-500 text-xs mt-1 font-medium">{addressForm.errors.phone}</p>
+                      <p className="text-rose-500 text-xs mt-1 font-medium">{addressForm.errors.phone}</p>
                     )}
                   </div>
 
                   <div className="sm:col-span-2 mt-4">
                     <button
                       type="submit"
-                      className="w-full bg-primary hover:bg-zinc-800 text-white font-semibold py-3.5 px-4 rounded-full transition-all duration-200 shadow-sm text-sm"
+                      className="w-full bg-primary hover:opacity-90 text-primary-foreground font-semibold py-3.5 px-4 rounded-full transition-all duration-200 shadow-sm text-xs sm:text-sm cursor-pointer"
                     >
                       Continue to Payment
                     </button>
@@ -444,15 +444,15 @@ const Checkout = () => {
             {/* STEP 2: Payment Details */}
             {step === 2 && (
               <div className="space-y-6">
-                <h2 className="font-display text-xl font-bold text-primary flex items-center gap-2 border-b border-zinc-100 pb-3">
-                  <FaCreditCard className="text-primary text-base" /> Payment Method
+                <h2 className="font-display text-xl font-bold text-foreground flex items-center gap-2 border-b border-border pb-3">
+                  <FaCreditCard className="text-foreground text-base" /> Payment Method
                 </h2>
 
                 <div className="space-y-3.5">
                   {/* Card Option */}
                   <label
                     className={`flex items-center justify-between border p-4.5 rounded-2xl cursor-pointer transition-all duration-200 ${
-                      paymentMethod === "Card" ? "border-primary bg-[#FCFBF8]" : "border-zinc-200 hover:bg-zinc-50"
+                      paymentMethod === "Card" ? "border-primary bg-secondary/50 shadow-xs" : "border-border hover:bg-secondary/40"
                     }`}
                   >
                     <span className="flex items-center gap-3">
@@ -461,17 +461,17 @@ const Checkout = () => {
                         name="payment"
                         checked={paymentMethod === "Card"}
                         onChange={() => setPaymentMethod("Card")}
-                        className="text-primary accent-primary"
+                        className="text-primary accent-primary cursor-pointer"
                       />
-                      <span className="font-semibold text-xs sm:text-sm text-primary">Credit / Debit Card</span>
+                      <span className="font-semibold text-xs sm:text-sm text-foreground">Credit / Debit Card</span>
                     </span>
-                    <span className="text-zinc-400 text-[10px] uppercase font-bold tracking-wider">Visa, Mastercard, RuPay</span>
+                    <span className="text-muted-foreground text-[10px] uppercase font-bold tracking-wider">Visa, Mastercard, RuPay</span>
                   </label>
 
                   {/* UPI Option */}
                   <label
                     className={`flex items-center justify-between border p-4.5 rounded-2xl cursor-pointer transition-all duration-200 ${
-                      paymentMethod === "UPI" ? "border-primary bg-[#FCFBF8]" : "border-zinc-200 hover:bg-zinc-50"
+                      paymentMethod === "UPI" ? "border-primary bg-secondary/50 shadow-xs" : "border-border hover:bg-secondary/40"
                     }`}
                   >
                     <span className="flex items-center gap-3">
@@ -480,17 +480,17 @@ const Checkout = () => {
                         name="payment"
                         checked={paymentMethod === "UPI"}
                         onChange={() => setPaymentMethod("UPI")}
-                        className="text-primary accent-primary"
+                        className="text-primary accent-primary cursor-pointer"
                       />
-                      <span className="font-semibold text-xs sm:text-sm text-primary">Google Pay / PhonePe / BHIM UPI</span>
+                      <span className="font-semibold text-xs sm:text-sm text-foreground">Google Pay / PhonePe / BHIM UPI</span>
                     </span>
-                    <span className="text-zinc-400 text-[10px] uppercase font-bold tracking-wider">UPI Apps</span>
+                    <span className="text-muted-foreground text-[10px] uppercase font-bold tracking-wider">UPI Apps</span>
                   </label>
 
                   {/* COD Option */}
                   <label
                     className={`flex items-center justify-between border p-4.5 rounded-2xl cursor-pointer transition-all duration-200 ${
-                      paymentMethod === "COD" ? "border-primary bg-[#FCFBF8]" : "border-zinc-200 hover:bg-zinc-50"
+                      paymentMethod === "COD" ? "border-primary bg-secondary/50 shadow-xs" : "border-border hover:bg-secondary/40"
                     }`}
                   >
                     <span className="flex items-center gap-3">
@@ -499,7 +499,7 @@ const Checkout = () => {
                         name="payment"
                         checked={paymentMethod === "COD"}
                         onChange={() => setPaymentMethod("COD")}
-                        className="text-foreground accent-primary"
+                        className="text-primary accent-primary cursor-pointer"
                       />
                       <span className="font-semibold text-xs sm:text-sm text-foreground">Cash on Delivery (COD)</span>
                     </span>

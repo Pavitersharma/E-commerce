@@ -118,11 +118,11 @@ const Listing = () => {
     <div className="bg-background min-h-screen pt-20 sm:pt-24 pb-16">
       <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
         {/* ================= HEADER ================= */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between border-b border-border pb-5 mt-8 gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between border-b border-border pb-5 mb-6 gap-4">
           <div>
-            <h1 className="font-display text-3xl font-extrabold tracking-tight text-foreground">Catalog</h1>
+            <h1 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground">Catalog</h1>
             <p className="text-muted-foreground text-xs sm:text-sm font-medium mt-1">
-              Showing {filteredProducts.length} Products
+              Showing {filteredProducts.length} {filteredProducts.length === 1 ? "Product" : "Products"}
             </p>
           </div>
 
@@ -131,7 +131,7 @@ const Listing = () => {
             <select
               value={sortOrder}
               onChange={(e) => setSortOrder(e.target.value)}
-              className="border border-border rounded-full px-4 py-2 bg-card text-xs font-semibold focus:outline-none focus:border-foreground/30 text-foreground cursor-pointer"
+              className="border border-border rounded-full px-4 py-2 bg-card text-xs font-semibold focus:outline-none focus:border-foreground/30 text-foreground cursor-pointer shadow-xs"
             >
               <option value="">Sort by: Default</option>
               <option value="lowtohigh">Price: Low to High</option>
@@ -141,12 +141,12 @@ const Listing = () => {
         </div>
 
         {/* ================= SEARCH INPUT ================= */}
-        <div className="relative mt-6">
+        <div className="relative mb-8">
           <CiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground text-xl" />
           <input
             type="text"
-            className="w-full pl-11 pr-4 py-3 border border-border focus:border-foreground/30 bg-card/70 rounded-full outline-none text-sm font-normal text-foreground placeholder-muted-foreground transition-all"
-            placeholder="Search catalog for clothing, accessories, or footwear..."
+            className="w-full pl-11 pr-4 py-3 border border-border focus:border-foreground/30 bg-card rounded-full outline-none text-sm font-normal text-foreground placeholder-muted-foreground transition-all shadow-xs"
+            placeholder="Search catalog for shirts, jeans, accessories, footwear..."
             value={search}
             onChange={(e) => {
               setSearch(e.target.value);
@@ -160,9 +160,9 @@ const Listing = () => {
           />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-10 mt-10">
+        <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-8 lg:gap-10">
           {/* ================= SIDEBAR FILTERS ================= */}
-          <div className="space-y-8">
+          <div className="space-y-6">
             <div className="border border-border p-6 rounded-3xl bg-card shadow-soft h-fit">
               <div className="text-sm font-bold text-foreground flex items-center gap-2 border-b border-border pb-3.5 mb-5">
                 <CiFilter className="text-base font-bold" />
@@ -181,7 +181,7 @@ const Listing = () => {
                           value={cat}
                           checked={selectedCategories.includes(cat)}
                           onChange={handleCategoryChange}
-                          className="rounded text-primary accent-primary focus:ring-primary border-zinc-300 w-4 h-4 cursor-pointer"
+                          className="rounded text-primary accent-primary focus:ring-primary border-border w-4 h-4 cursor-pointer"
                         />
                         <span>{cat.charAt(0).toUpperCase() + cat.slice(1)}</span>
                       </label>
@@ -191,16 +191,19 @@ const Listing = () => {
               </div>
 
               {/* Clear Filters */}
-              <button
-                onClick={handleClearFilters}
-                className="mt-6 w-full py-2.5 bg-secondary border border-border hover:border-foreground/30 rounded-full text-xs font-semibold transition-all text-foreground/70 shadow-sm"
-              >
-                Clear All Filters
-              </button>
+              {(selectedCategories.length > 0 || search) && (
+                <button
+                  type="button"
+                  onClick={handleClearFilters}
+                  className="mt-6 w-full py-2.5 bg-secondary border border-border hover:border-foreground/40 rounded-full text-xs font-semibold transition-all text-foreground/80 shadow-xs cursor-pointer"
+                >
+                  Clear All Filters
+                </button>
+              )}
             </div>
 
             {/* 🛒 Cart Summary widget inside sidebar */}
-            <div className="border border-border p-6 rounded-3xl bg-background shadow-soft">
+            <div className="border border-border p-6 rounded-3xl bg-card shadow-soft">
               <h3 className="font-display text-sm font-bold text-foreground mb-4 flex items-center gap-2">
                 <span>🛒</span> Cart Preview
               </h3>
@@ -208,7 +211,7 @@ const Listing = () => {
                 <p className="text-xs text-muted-foreground">Your cart is currently empty.</p>
               ) : (
                 <div className="space-y-4">
-                  <ul className="space-y-2 text-xs text-zinc-600 max-h-48 overflow-y-auto pr-1">
+                  <ul className="space-y-2 text-xs max-h-48 overflow-y-auto pr-1">
                     {cart.map((item) => {
                       const itemKey = item._id || item.id;
                       return (
@@ -233,7 +236,7 @@ const Listing = () => {
           {/* ================= PRODUCTS GRID ================= */}
           <div>
             {loading ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 sm:gap-8">
                 {Array.from({ length: 6 }).map((_, i) => (
                   <div key={i} className="animate-pulse space-y-4">
                     <div className="bg-secondary rounded-2xl aspect-[4/5]" />
@@ -243,7 +246,7 @@ const Listing = () => {
                 ))}
               </div>
             ) : filteredProducts.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8 sm:gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 sm:gap-8">
                 {filteredProducts.map((product) => {
                   const productKey = product._id || product.id;
                   const cartItem = cart.find((item) => (item._id || item.id) === productKey);
@@ -254,23 +257,25 @@ const Listing = () => {
                   return (
                     <div key={productKey} className="group flex flex-col justify-between transition-all duration-200">
                       {/* Image + Info container */}
-                      <div className="space-y-4">
+                      <div className="space-y-3.5">
                         <div className="relative aspect-[4/5] w-full rounded-2xl bg-secondary border border-border/40 flex items-center justify-center overflow-hidden transition-all duration-300 group-hover:shadow-soft">
-                          <Link to={`/product/${productKey}`} className="w-full h-full flex items-center justify-center">
+                          <Link to={`/product/${productKey}`} className="w-full h-full flex items-center justify-center p-4">
                             <img
                               src={getImageAsset(product.image)}
                               alt={product.name}
-                              className="max-h-[80%] object-contain group-hover:scale-105 transition-transform duration-500"
+                              className="max-h-[85%] object-contain group-hover:scale-105 transition-transform duration-500"
                             />
                           </Link>
 
                           {/* Wishlist Icon */}
                           <button
+                            type="button"
                             onClick={() => toggleWishlist(productKey)}
-                            className="absolute top-3 right-3 h-10 w-10 bg-card/90 hover:bg-card border border-border/40 rounded-full flex items-center justify-center text-foreground shadow-soft backdrop-blur transition"
+                            className="absolute top-3 right-3 h-9 w-9 bg-card/90 hover:bg-card border border-border/40 rounded-full flex items-center justify-center text-foreground shadow-soft backdrop-blur transition cursor-pointer"
+                            aria-label="Toggle wishlist"
                           >
                             {wishlist.includes(productKey) ? (
-                              <FaHeart className="text-red-500 text-xs" />
+                              <FaHeart className="text-rose-500 text-xs" />
                             ) : (
                               <FaRegHeart className="text-xs" />
                             )}
@@ -278,7 +283,7 @@ const Listing = () => {
 
                           {/* Discount tag pill */}
                           {discountPercent > 0 && (
-                            <span className="absolute bottom-3 left-3 bg-red-600 text-white text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider shadow-sm">
+                            <span className="absolute bottom-3 left-3 bg-primary text-primary-foreground text-[9px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow-sm">
                               {discountPercent}% OFF
                             </span>
                           )}
@@ -292,7 +297,7 @@ const Listing = () => {
                             </span>
                             <div className="flex items-center gap-1 text-[11px] text-foreground font-medium">
                               <span className="text-amber-500">★</span>
-                              <span>{product.rating}</span>
+                              <span>{product.rating || "4.8"}</span>
                               <span className="text-muted-foreground font-normal">({product.reviewCount || 45})</span>
                             </div>
                           </div>
@@ -324,8 +329,10 @@ const Listing = () => {
                         {cartItem ? (
                           <div className="mt-3 flex items-center justify-between border border-border rounded-full overflow-hidden bg-secondary h-9">
                             <button
-                              className="text-muted-foreground px-3.5 hover:bg-border/50 hover:text-foreground transition font-bold h-full"
+                              type="button"
+                              className="text-muted-foreground px-3.5 hover:bg-border/50 hover:text-foreground transition font-bold h-full cursor-pointer"
                               onClick={() => updateQty(productKey, cartItem.qty - 1)}
+                              aria-label="Decrease quantity"
                             >
                               -
                             </button>
@@ -333,16 +340,19 @@ const Listing = () => {
                               {cartItem.qty}
                             </span>
                             <button
-                              className="text-muted-foreground px-3.5 hover:bg-border/50 hover:text-foreground transition font-bold h-full"
+                              type="button"
+                              className="text-muted-foreground px-3.5 hover:bg-border/50 hover:text-foreground transition font-bold h-full cursor-pointer"
                               onClick={() => updateQty(productKey, cartItem.qty + 1)}
+                              aria-label="Increase quantity"
                             >
                               +
                             </button>
                           </div>
                         ) : (
                           <button
+                            type="button"
                             onClick={() => handleAddCart(product)}
-                            className="mt-3 w-full bg-primary hover:opacity-90 text-primary-foreground py-2 rounded-full text-xs font-semibold transition shadow-sm"
+                            className="mt-3 w-full bg-primary hover:opacity-90 text-primary-foreground py-2.5 rounded-full text-xs font-semibold transition shadow-sm cursor-pointer"
                           >
                             Add to Cart
                           </button>
@@ -353,10 +363,23 @@ const Listing = () => {
                 })}
               </div>
             ) : (
-              <div className="text-center py-24 bg-secondary/50 border border-border rounded-3xl max-w-xl mx-auto space-y-3">
-                <span className="text-4xl">🔍</span>
-                <h3 className="font-display text-lg font-bold text-foreground">No results found</h3>
-                <p className="text-muted-foreground text-sm max-w-xs mx-auto">Try clearing search filters or modifying search keywords.</p>
+              <div className="text-center py-16 px-6 bg-card border border-border rounded-3xl max-w-xl mx-auto space-y-4 shadow-soft">
+                <span className="text-4xl block">🔍</span>
+                <div className="space-y-1">
+                  <h3 className="font-display text-lg font-bold text-foreground">No Products Found</h3>
+                  <p className="text-muted-foreground text-xs sm:text-sm max-w-xs mx-auto">
+                    We couldn't find matches for your selected search and filters.
+                  </p>
+                </div>
+                <div className="pt-2">
+                  <button
+                    type="button"
+                    onClick={handleClearFilters}
+                    className="inline-block bg-primary hover:opacity-90 text-primary-foreground font-semibold px-6 py-2.5 rounded-full text-xs sm:text-sm transition shadow-sm cursor-pointer"
+                  >
+                    Clear Filters & Show All
+                  </button>
+                </div>
               </div>
             )}
           </div>

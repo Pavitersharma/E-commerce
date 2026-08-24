@@ -124,8 +124,8 @@ const Register = () => {
                 className={`w-full px-4 py-2.5 pr-10 border ${
                   formik.touched.password && formik.errors.password
                     ? "border-red-500"
-                    : "border-zinc-250 focus:border-primary"
-                } rounded-xl focus:outline-none bg-zinc-50/10 text-sm transition-colors`}
+                    : "border-border focus:border-foreground/30"
+                } rounded-xl focus:outline-none bg-background text-sm transition-colors`}
                 value={formik.values.password}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -148,7 +148,7 @@ const Register = () => {
           <div className="pt-2">
             <button
               type="submit"
-              className="w-full py-3 bg-primary hover:opacity-90 text-primary-foreground font-semibold rounded-full text-sm transition shadow-sm"
+              className="w-full py-3 bg-primary hover:opacity-90 text-primary-foreground font-semibold rounded-full text-xs sm:text-sm transition shadow-sm cursor-pointer"
             >
               Sign Up
             </button>

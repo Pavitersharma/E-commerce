@@ -1,69 +1,84 @@
 import React from "react";
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const Footer = () => {
+  const location = useLocation();
+  const isHomepage = location.pathname === "/";
+
   return (
     <>
-      {/* ─── Features Banner ─── */}
-      <section className="border-t border-border bg-card py-12">
-        <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 px-4 md:px-6 max-w-7xl">
-          <div className="flex items-start gap-4">
-            <div className="rounded-full bg-secondary p-3 text-foreground">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+      {/* ─── Features Banner (Homepage Only) ─── */}
+      {isHomepage && (
+        <section className="border-t border-border bg-card py-12">
+          <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 px-4 md:px-6 max-w-7xl">
+            <div className="flex items-start gap-4">
+              <div className="rounded-full bg-secondary p-3 text-foreground">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+              </div>
+              <div>
+                <h4 className="font-semibold text-sm text-foreground">Free shipping</h4>
+                <p className="text-xs text-muted-foreground mt-1">On orders over ₹1,499</p>
+              </div>
             </div>
-            <div>
-              <h4 className="font-semibold text-sm text-foreground">Free shipping</h4>
-              <p className="text-xs text-muted-foreground mt-1">On orders over ₹1,499</p>
-            </div>
-          </div>
 
-          <div className="flex items-start gap-4">
-            <div className="rounded-full bg-secondary p-3 text-foreground">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><polyline points="3 3 3 8 8 8"></polyline></svg>
+            <div className="flex items-start gap-4">
+              <div className="rounded-full bg-secondary p-3 text-foreground">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><polyline points="3 3 3 8 8 8"></polyline></svg>
+              </div>
+              <div>
+                <h4 className="font-semibold text-sm text-foreground">Easy returns</h4>
+                <p className="text-xs text-muted-foreground mt-1">15-day free returns</p>
+              </div>
             </div>
-            <div>
-              <h4 className="font-semibold text-sm text-foreground">Easy returns</h4>
-              <p className="text-xs text-muted-foreground mt-1">15-day free returns</p>
-            </div>
-          </div>
 
-          <div className="flex items-start gap-4">
-            <div className="rounded-full bg-secondary p-3 text-foreground">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-            </div>
-            <div>
-              <h4 className="font-semibold text-sm text-foreground">Secure checkout</h4>
-              <p className="text-xs text-muted-foreground mt-1">Razorpay protected</p>
+            <div className="flex items-start gap-4">
+              <div className="rounded-full bg-secondary p-3 text-foreground">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              </div>
+              <div>
+                <h4 className="font-semibold text-sm text-foreground">Secure checkout</h4>
+                <p className="text-xs text-muted-foreground mt-1">Razorpay protected</p>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
-      {/* ─── Dark Newsletter Section ─── */}
-      <section className="bg-primary text-primary-foreground py-16">
-        <div className="container mx-auto px-4 md:px-6 max-w-7xl">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-            <div>
-              <span className="text-xs font-semibold uppercase tracking-wider text-primary-foreground/75">Join the club</span>
-              <h3 className="font-display text-2xl font-bold tracking-tight mt-2 sm:text-3xl">Style notes, drops & early access.</h3>
-              <p className="text-sm text-primary-foreground/70 mt-2 max-w-md">Subscribe to get 10% off your first order and be first to know about new collections.</p>
-            </div>
-            <div className="w-full max-w-md lg:ml-auto">
-              <form className="flex h-12 w-full items-center rounded-full border border-primary-foreground/20 bg-primary-foreground/10 p-1 focus-within:border-primary-foreground/45">
-                <input
-                  aria-label="Email"
-                  className="h-full flex-1 rounded-full bg-transparent px-4 text-sm text-primary-foreground outline-none placeholder:text-primary-foreground/50"
-                  placeholder="your@email.com"
-                  type="email"
-                />
-                <button type="submit" className="inline-flex h-full items-center gap-2 rounded-full bg-primary-foreground px-6 text-sm font-semibold text-primary transition hover:opacity-90">
-                  Subscribe
-                </button>
-              </form>
+      {/* ─── Dark Newsletter Section (Homepage Only) ─── */}
+      {isHomepage && (
+        <section className="bg-primary text-primary-foreground py-16">
+          <div className="container mx-auto px-4 md:px-6 max-w-7xl">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+              <div>
+                <span className="text-xs font-semibold uppercase tracking-wider text-primary-foreground/75">Join the club</span>
+                <h3 className="font-display text-2xl font-bold tracking-tight mt-2 sm:text-3xl">Style notes, drops & early access.</h3>
+                <p className="text-sm text-primary-foreground/70 mt-2 max-w-md">Subscribe to get 10% off your first order and be first to know about new collections.</p>
+              </div>
+              <div className="w-full max-w-md lg:ml-auto">
+                <form 
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    // Smooth form submission UX
+                    e.target.reset();
+                  }}
+                  className="flex h-12 w-full items-center rounded-full border border-primary-foreground/20 bg-primary-foreground/10 p-1 focus-within:border-primary-foreground/45"
+                >
+                  <input
+                    aria-label="Email"
+                    className="h-full flex-1 rounded-full bg-transparent px-4 text-sm text-primary-foreground outline-none placeholder:text-primary-foreground/50"
+                    placeholder="your@email.com"
+                    type="email"
+                    required
+                  />
+                  <button type="submit" className="inline-flex h-full items-center gap-2 rounded-full bg-primary-foreground px-6 text-sm font-semibold text-primary transition hover:opacity-90 cursor-pointer">
+                    Subscribe
+                  </button>
+                </form>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* ─── Main Footer ─── */}
       <footer className="bg-background border-t border-border py-16 md:py-24 text-muted-foreground text-sm">
